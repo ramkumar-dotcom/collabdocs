@@ -1,10 +1,12 @@
 import Link from "next/link";
+import { Logo } from "@/components/logo";
 
 const features = [
   {
-    title: "Real-time collaboration",
+    title: "Live multiplayer editing",
     description:
-      "Write together live. See teammates type as it happens with low-latency sync powered by Yjs and Socket.IO.",
+      "Everyone types on the same canvas. Changes appear instantly with conflict-free sync — no refresh, no overwrites.",
+    accent: "from-blue-500 to-cyan-400",
     icon: (
       <path
         strokeLinecap="round"
@@ -14,9 +16,10 @@ const features = [
     ),
   },
   {
-    title: "Rich document editor",
+    title: "Beautiful rich text",
     description:
-      "Headings, lists, bold, links, and more — a clean Google Docs–style canvas that stays out of your way.",
+      "Headings, lists, emphasis, and clean formatting in a focused editor that feels like a modern Google Docs.",
+    accent: "from-indigo-500 to-violet-400",
     icon: (
       <path
         strokeLinecap="round"
@@ -26,9 +29,10 @@ const features = [
     ),
   },
   {
-    title: "Secure accounts",
+    title: "Private by default",
     description:
-      "Sign in with email and password. Your documents stay private until you choose to share them.",
+      "Accounts secured with hashed passwords and session tokens. Share only when you’re ready — and with whom you choose.",
+    accent: "from-emerald-500 to-teal-400",
     icon: (
       <path
         strokeLinecap="round"
@@ -38,9 +42,10 @@ const features = [
     ),
   },
   {
-    title: "Share with your team",
+    title: "Invite in one click",
     description:
-      "Invite collaborators as editors or viewers. Work on the same doc without emailing versions around.",
+      "Add editors or viewers to any document. Your whole team stays aligned without emailing file attachments.",
+    accent: "from-orange-500 to-amber-400",
     icon: (
       <path
         strokeLinecap="round"
@@ -50,9 +55,10 @@ const features = [
     ),
   },
   {
-    title: "Auto-saved in the cloud",
+    title: "Always saved",
     description:
-      "Every change is stored safely in MongoDB. Come back anytime — pick up right where you left off.",
+      "Edits persist to the cloud as you work. Close the tab, open another device — your latest draft is waiting.",
+    accent: "from-sky-500 to-blue-400",
     icon: (
       <path
         strokeLinecap="round"
@@ -62,9 +68,10 @@ const features = [
     ),
   },
   {
-    title: "Works in the browser",
+    title: "Browser-native",
     description:
-      "No install required. Open CollabDocs on any modern browser and start writing in seconds.",
+      "No downloads, no plugins. Open CollabDocs on any modern browser and start writing in seconds.",
+    accent: "from-fuchsia-500 to-pink-400",
     icon: (
       <path
         strokeLinecap="round"
@@ -77,59 +84,65 @@ const features = [
 
 const steps = [
   {
-    step: "01",
-    title: "Create an account",
-    body: "Sign up free with your email. Your workspace is ready in moments.",
+    step: "1",
+    title: "Create your workspace",
+    body: "Sign up with email. Your account and first blank document are ready instantly.",
   },
   {
-    step: "02",
-    title: "Start a document",
-    body: "Open a blank page or continue an existing draft from your dashboard.",
+    step: "2",
+    title: "Write in the open canvas",
+    body: "Use a familiar doc layout — title at the top, rich text below, zero clutter.",
   },
   {
-    step: "03",
-    title: "Invite and co-edit",
-    body: "Share a link, watch live cursors appear, and ship the doc together.",
+    step: "3",
+    title: "Bring people in live",
+    body: "Share the doc. Watch colored carets appear and ship the draft together.",
   },
+];
+
+const stats = [
+  { value: "Realtime", label: "Yjs + Socket.IO sync" },
+  { value: "Cloud", label: "MongoDB persistence" },
+  { value: "Secure", label: "JWT session auth" },
+  { value: "Fast", label: "Next.js edge-ready UI" },
 ];
 
 export default function Home() {
   return (
-    <div className="flex min-h-full flex-1 flex-col bg-zinc-50 text-zinc-900">
+    <div className="flex min-h-full flex-1 flex-col bg-slate-50 text-slate-900">
       {/* Nav */}
-      <header className="sticky top-0 z-50 border-b border-zinc-200/80 bg-white/80 backdrop-blur-lg">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-          <Link href="/" className="flex items-center gap-2.5">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 text-sm font-bold text-white shadow-sm shadow-blue-600/25">
-              C
-            </span>
-            <span className="text-lg font-semibold tracking-tight">
-              CollabDocs
-            </span>
+      <header className="sticky top-0 z-50 border-b border-slate-200/70 bg-white/75 backdrop-blur-xl">
+        <div className="mx-auto flex h-[4.25rem] max-w-6xl items-center justify-between px-5 sm:px-6">
+          <Link href="/" className="transition opacity-100 hover:opacity-90">
+            <Logo size="md" />
           </Link>
 
-          <nav className="hidden items-center gap-8 text-sm font-medium text-zinc-600 md:flex">
-            <a href="#features" className="transition hover:text-zinc-900">
-              Features
-            </a>
-            <a href="#how-it-works" className="transition hover:text-zinc-900">
-              How it works
-            </a>
-            <a href="#preview" className="transition hover:text-zinc-900">
-              Preview
-            </a>
+          <nav className="hidden items-center gap-1 text-sm font-medium text-slate-600 md:flex">
+            {[
+              { href: "#features", label: "Features" },
+              { href: "#how-it-works", label: "How it works" },
+              { href: "#preview", label: "Preview" },
+            ].map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className="rounded-full px-3.5 py-2 transition hover:bg-slate-100 hover:text-slate-900"
+              >
+                {item.label}
+              </a>
+            ))}
           </nav>
 
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-2">
             <Link
               href="/login"
-              className="rounded-full px-3 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 sm:px-4"
+              className="hidden rounded-full px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100 sm:inline-flex"
             >
               Sign in
             </Link>
             <Link
               href="/register"
-              className="rounded-full bg-zinc-900 px-3 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-zinc-800 sm:px-4"
+              className="inline-flex items-center rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm shadow-slate-900/10 transition hover:bg-slate-800"
             >
               Get started
             </Link>
@@ -142,191 +155,345 @@ export default function Home() {
         <section className="relative overflow-hidden">
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,rgba(59,130,246,0.18),transparent)]"
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_90%_70%_at_50%_-10%,rgba(37,99,235,0.16),transparent_55%)]"
           />
-          <div className="relative mx-auto max-w-6xl px-6 pb-16 pt-16 sm:pb-24 sm:pt-24">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 hero-grid"
+          />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -left-24 top-24 h-72 w-72 rounded-full bg-blue-400/20 blur-3xl"
+          />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -right-20 top-40 h-80 w-80 rounded-full bg-indigo-400/20 blur-3xl"
+          />
+
+          <div className="relative mx-auto max-w-6xl px-5 pb-10 pt-14 sm:px-6 sm:pb-16 sm:pt-20">
             <div className="mx-auto max-w-3xl text-center">
-              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700">
-                <span className="h-1.5 w-1.5 rounded-full bg-blue-500" />
-                Live collaborative documents
+              <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-blue-200/80 bg-white/80 px-3.5 py-1.5 text-xs font-semibold text-blue-700 shadow-sm shadow-blue-500/5 backdrop-blur">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-pulse-ring rounded-full bg-blue-400" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-500" />
+                </span>
+                Now live · Collaborative documents in the browser
               </div>
-              <h1 className="text-4xl font-semibold tracking-tight text-zinc-900 sm:text-5xl md:text-6xl md:leading-[1.08]">
-                Write together.{" "}
-                <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                  In real time.
+
+              <h1 className="text-balance text-4xl font-semibold tracking-tight text-slate-900 sm:text-5xl md:text-6xl md:leading-[1.05]">
+                Your team&apos;s docs,{" "}
+                <span className="relative whitespace-nowrap">
+                  <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 bg-clip-text text-transparent">
+                    written together
+                  </span>
+                  <span className="absolute -bottom-1 left-0 right-0 h-2 rounded-full bg-gradient-to-r from-blue-500/20 via-indigo-500/20 to-violet-500/20 blur-[1px]" />
                 </span>
               </h1>
-              <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-zinc-600 sm:text-xl">
-                CollabDocs is a Google Docs–style editor for teams. Create
-                documents, invite people, and edit live — no version chaos, no
-                waiting for someone to finish.
+
+              <p className="mx-auto mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-slate-600 sm:text-xl">
+                CollabDocs is a Google Docs–style workspace where ideas stay in
+                one place. Draft, share, and co-edit with live carets — no more
+                &ldquo;final_v7_really_final.docx&rdquo;.
               </p>
+
               <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
                 <Link
                   href="/register"
-                  className="inline-flex h-12 w-full items-center justify-center rounded-full bg-blue-600 px-8 text-sm font-semibold text-white shadow-lg shadow-blue-600/25 transition hover:bg-blue-500 sm:w-auto"
+                  className="group inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-8 text-sm font-semibold text-white shadow-lg shadow-blue-600/30 transition hover:from-blue-500 hover:to-indigo-500 sm:w-auto"
                 >
                   Start writing free
+                  <span className="transition group-hover:translate-x-0.5">
+                    →
+                  </span>
                 </Link>
                 <a
                   href="#preview"
-                  className="inline-flex h-12 w-full items-center justify-center rounded-full border border-zinc-300 bg-white px-8 text-sm font-semibold text-zinc-800 transition hover:bg-zinc-50 sm:w-auto"
+                  className="inline-flex h-12 w-full items-center justify-center rounded-full border border-slate-200 bg-white/90 px-8 text-sm font-semibold text-slate-800 shadow-sm transition hover:border-slate-300 hover:bg-white sm:w-auto"
                 >
-                  See product preview
+                  View live preview
                 </a>
               </div>
-              <p className="mt-5 text-sm text-zinc-500">
-                Free to get started · Works in any browser · No install
+
+              <p className="mt-5 text-sm text-slate-500">
+                Free to try · No install · Works on any modern browser
               </p>
             </div>
 
-            {/* Editor mock preview */}
-            <div id="preview" className="mx-auto mt-16 max-w-4xl scroll-mt-24">
-              <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xl shadow-zinc-900/10 ring-1 ring-black/5">
-                {/* Window chrome */}
-                <div className="flex items-center gap-2 border-b border-zinc-100 bg-zinc-50 px-4 py-3">
+            {/* Floating product preview */}
+            <div
+              id="preview"
+              className="relative mx-auto mt-14 max-w-5xl scroll-mt-28 sm:mt-18"
+            >
+              <div className="absolute -inset-4 rounded-[2rem] bg-gradient-to-b from-blue-500/10 via-indigo-500/5 to-transparent blur-2xl" />
+
+              <div className="animate-float relative overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-2xl shadow-slate-900/10 ring-1 ring-slate-900/5">
+                {/* Browser chrome */}
+                <div className="flex items-center gap-3 border-b border-slate-100 bg-slate-50/90 px-4 py-3">
                   <div className="flex gap-1.5">
-                    <span className="h-3 w-3 rounded-full bg-red-400" />
-                    <span className="h-3 w-3 rounded-full bg-amber-400" />
-                    <span className="h-3 w-3 rounded-full bg-emerald-400" />
+                    <span className="h-3 w-3 rounded-full bg-[#FF5F57]" />
+                    <span className="h-3 w-3 rounded-full bg-[#FEBC2E]" />
+                    <span className="h-3 w-3 rounded-full bg-[#28C840]" />
                   </div>
-                  <div className="mx-auto flex max-w-md flex-1 items-center justify-center">
-                    <div className="w-full truncate rounded-md border border-zinc-200 bg-white px-3 py-1 text-center text-xs text-zinc-500">
-                      collabdocs.app / docs / product-roadmap
-                    </div>
-                  </div>
-                </div>
-
-                {/* Toolbar */}
-                <div className="flex flex-wrap items-center gap-1 border-b border-zinc-100 px-4 py-2 text-xs text-zinc-500">
-                  {["File", "Edit", "View", "Insert", "Format"].map((item) => (
-                    <span
-                      key={item}
-                      className="rounded px-2 py-1 font-medium hover:bg-zinc-50"
-                    >
-                      {item}
+                  <div className="mx-auto flex w-full max-w-lg items-center gap-2 rounded-lg border border-slate-200/80 bg-white px-3 py-1.5 shadow-sm">
+                    <span className="h-2 w-2 shrink-0 rounded-full bg-emerald-400" />
+                    <span className="truncate text-xs text-slate-500">
+                      app.collabdocs.io / d / product-roadmap
                     </span>
-                  ))}
-                  <div className="ml-auto flex -space-x-2">
-                    {[
-                      { initials: "AK", color: "bg-violet-500" },
-                      { initials: "JM", color: "bg-emerald-500" },
-                      { initials: "SR", color: "bg-orange-500" },
-                    ].map((user) => (
-                      <span
-                        key={user.initials}
-                        className={`flex h-7 w-7 items-center justify-center rounded-full ${user.color} text-[10px] font-bold text-white ring-2 ring-white`}
-                        title={user.initials}
-                      >
-                        {user.initials}
-                      </span>
-                    ))}
                   </div>
                 </div>
 
-                {/* Document body */}
-                <div className="grid gap-0 lg:grid-cols-[1fr_200px]">
-                  <div className="min-h-[320px] space-y-4 px-8 py-10 sm:px-14 sm:py-12">
-                    <div className="flex items-start gap-2">
-                      <h2 className="text-3xl font-semibold tracking-tight text-zinc-900">
+                {/* App chrome */}
+                <div className="flex items-center justify-between gap-3 border-b border-slate-100 px-4 py-2.5 sm:px-5">
+                  <div className="flex min-w-0 items-center gap-3">
+                    <Logo size="sm" showWordmark={false} />
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-semibold text-slate-800">
                         Q3 Product Roadmap
-                      </h2>
-                      <span className="mt-2 inline-block h-5 w-0.5 animate-pulse bg-blue-500" />
-                    </div>
-                    <p className="text-[15px] leading-7 text-zinc-600">
-                      Goals for this quarter: ship live collaboration, document
-                      sharing, and a polished editor experience for remote
-                      teams.
-                    </p>
-                    <div className="space-y-2 pt-2">
-                      <p className="text-sm font-semibold text-zinc-800">
-                        Priorities
                       </p>
-                      <ul className="space-y-2 text-[15px] text-zinc-600">
-                        <li className="flex items-start gap-2">
-                          <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-500" />
-                          Real-time multiplayer editing with presence cursors
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500" />
-                          Secure auth and per-document permissions
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-orange-500" />
-                          Cloud save with reliable MongoDB persistence
-                        </li>
-                      </ul>
+                      <p className="text-[11px] text-slate-400">
+                        Saved just now · 3 people here
+                      </p>
                     </div>
-                    {/* Fake collab carets */}
-                    <div className="relative pt-4">
-                      <p className="text-[15px] leading-7 text-zinc-600">
-                        Next up: polish the dashboard and invite flow so teams
-                        can{" "}
-                        <span className="relative inline-block">
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="flex -space-x-2">
+                      {[
+                        { i: "AK", c: "bg-violet-500" },
+                        { i: "JM", c: "bg-emerald-500" },
+                        { i: "SR", c: "bg-orange-500" },
+                      ].map((u) => (
+                        <span
+                          key={u.i}
+                          className={`flex h-7 w-7 items-center justify-center rounded-full ${u.c} text-[10px] font-bold text-white ring-2 ring-white`}
+                        >
+                          {u.i}
+                        </span>
+                      ))}
+                    </div>
+                    <span className="hidden rounded-full bg-blue-50 px-2.5 py-1 text-[11px] font-semibold text-blue-700 sm:inline">
+                      Share
+                    </span>
+                  </div>
+                </div>
+
+                {/* Formatting bar */}
+                <div className="flex flex-wrap items-center gap-1 border-b border-slate-100 bg-white px-3 py-2 text-xs text-slate-500 sm:px-5">
+                  {["Normal text", "B", "I", "U", "• List", "1. List", "Link"].map(
+                    (t, idx) => (
+                      <span
+                        key={t}
+                        className={`rounded-md px-2 py-1 font-medium ${
+                          idx === 1
+                            ? "bg-slate-100 text-slate-800"
+                            : "hover:bg-slate-50"
+                        }`}
+                      >
+                        {t}
+                      </span>
+                    )
+                  )}
+                </div>
+
+                <div className="grid lg:grid-cols-[1fr_220px]">
+                  {/* Page */}
+                  <div className="relative min-h-[340px] bg-[linear-gradient(180deg,#fff_0%,#fafbfc_100%)] px-8 py-10 sm:px-16 sm:py-12">
+                    <div className="mx-auto max-w-xl">
+                      <div className="flex items-center gap-1">
+                        <h2 className="text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
+                          Q3 Product Roadmap
+                        </h2>
+                        <span className="animate-caret ml-0.5 inline-block h-8 w-0.5 bg-blue-500" />
+                      </div>
+                      <p className="mt-5 text-[15px] leading-7 text-slate-600">
+                        Ship a collaborative writing experience teams love:
+                        presence, permissions, and a canvas that never fights
+                        you.
+                      </p>
+
+                      <div className="mt-8 space-y-3">
+                        <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                          This sprint
+                        </p>
+                        {[
+                          {
+                            done: true,
+                            text: "Realtime multiplayer with colored carets",
+                            who: "Ava",
+                            color: "violet",
+                          },
+                          {
+                            done: true,
+                            text: "Secure auth & document ownership",
+                            who: "Jordan",
+                            color: "emerald",
+                          },
+                          {
+                            done: false,
+                            text: "Invite links & role-based access",
+                            who: null,
+                            color: null,
+                          },
+                        ].map((row) => (
+                          <div
+                            key={row.text}
+                            className="flex items-start gap-3 rounded-xl border border-slate-100 bg-white px-3.5 py-3 shadow-sm"
+                          >
+                            <span
+                              className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md text-[10px] font-bold text-white ${
+                                row.done ? "bg-emerald-500" : "bg-slate-200"
+                              }`}
+                            >
+                              {row.done ? "✓" : ""}
+                            </span>
+                            <div className="min-w-0 flex-1">
+                              <p className="text-sm text-slate-700">{row.text}</p>
+                              {row.who && (
+                                <span
+                                  className={`mt-1 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold ${
+                                    row.color === "violet"
+                                      ? "bg-violet-50 text-violet-700"
+                                      : "bg-emerald-50 text-emerald-700"
+                                  }`}
+                                >
+                                  <span
+                                    className={`h-1.5 w-1.5 rounded-full ${
+                                      row.color === "violet"
+                                        ? "bg-violet-500"
+                                        : "bg-emerald-500"
+                                    }`}
+                                  />
+                                  {row.who} is editing
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      <p className="relative mt-8 text-[15px] leading-7 text-slate-600">
+                        Next: polish the dashboard so teams can{" "}
+                        <span className="relative inline font-medium text-slate-900">
                           onboard in under a minute
-                          <span className="absolute -top-5 left-0 whitespace-nowrap rounded bg-violet-500 px-1.5 py-0.5 text-[10px] font-semibold text-white">
+                          <span className="absolute -top-6 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-violet-500 px-2 py-0.5 text-[10px] font-bold text-white shadow-md">
                             Ava
                           </span>
-                          <span className="absolute inset-x-0 -bottom-0.5 h-0.5 bg-violet-400/80" />
+                          <span className="absolute -bottom-0.5 left-0 right-0 h-[3px] rounded-full bg-violet-400/70" />
                         </span>
                         .
                       </p>
                     </div>
                   </div>
 
-                  <aside className="hidden border-l border-zinc-100 bg-zinc-50/50 p-4 lg:block">
-                    <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
-                      Active now
+                  {/* Presence rail */}
+                  <aside className="hidden border-l border-slate-100 bg-slate-50/80 p-5 lg:block">
+                    <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                      In this doc
                     </p>
-                    <ul className="mt-3 space-y-3">
+                    <ul className="mt-4 space-y-3">
                       {[
-                        { name: "Ava Kim", role: "Editing", color: "bg-violet-500" },
-                        { name: "Jordan M.", role: "Editing", color: "bg-emerald-500" },
-                        { name: "Sam R.", role: "Viewing", color: "bg-orange-500" },
-                      ].map((person) => (
-                        <li key={person.name} className="flex items-center gap-2.5">
+                        {
+                          name: "Ava Kim",
+                          role: "Editing intro",
+                          color: "bg-violet-500",
+                          online: true,
+                        },
+                        {
+                          name: "Jordan M.",
+                          role: "Editing checklist",
+                          color: "bg-emerald-500",
+                          online: true,
+                        },
+                        {
+                          name: "Sam R.",
+                          role: "Viewing",
+                          color: "bg-orange-500",
+                          online: true,
+                        },
+                      ].map((p) => (
+                        <li
+                          key={p.name}
+                          className="flex items-center gap-3 rounded-xl bg-white p-2.5 shadow-sm ring-1 ring-slate-100"
+                        >
                           <span
-                            className={`h-2 w-2 rounded-full ${person.color}`}
-                          />
-                          <div>
-                            <p className="text-sm font-medium text-zinc-800">
-                              {person.name}
+                            className={`flex h-9 w-9 items-center justify-center rounded-full ${p.color} text-xs font-bold text-white`}
+                          >
+                            {p.name
+                              .split(" ")
+                              .map((n) => n[0])
+                              .join("")
+                              .slice(0, 2)}
+                          </span>
+                          <div className="min-w-0">
+                            <p className="truncate text-sm font-semibold text-slate-800">
+                              {p.name}
                             </p>
-                            <p className="text-xs text-zinc-500">{person.role}</p>
+                            <p className="truncate text-xs text-slate-500">
+                              {p.role}
+                            </p>
                           </div>
+                          {p.online && (
+                            <span className="ml-auto h-2 w-2 rounded-full bg-emerald-400" />
+                          )}
                         </li>
                       ))}
                     </ul>
+
+                    <div className="mt-6 rounded-xl border border-dashed border-slate-200 bg-white/60 p-3 text-center">
+                      <p className="text-xs font-medium text-slate-500">
+                        + Invite teammate
+                      </p>
+                    </div>
                   </aside>
                 </div>
               </div>
+            </div>
+
+            {/* Stats */}
+            <div className="mx-auto mt-14 grid max-w-4xl grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
+              {stats.map((s) => (
+                <div
+                  key={s.label}
+                  className="rounded-2xl border border-slate-200/80 bg-white/80 px-4 py-4 text-center shadow-sm backdrop-blur"
+                >
+                  <p className="text-sm font-bold text-slate-900 sm:text-base">
+                    {s.value}
+                  </p>
+                  <p className="mt-1 text-[11px] text-slate-500 sm:text-xs">
+                    {s.label}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
 
         {/* Features */}
-        <section id="features" className="scroll-mt-20 border-t border-zinc-200 bg-white py-20 sm:py-24">
-          <div className="mx-auto max-w-6xl px-6">
+        <section
+          id="features"
+          className="scroll-mt-24 border-t border-slate-200/80 bg-white py-20 sm:py-28"
+        >
+          <div className="mx-auto max-w-6xl px-5 sm:px-6">
             <div className="mx-auto max-w-2xl text-center">
               <p className="text-sm font-semibold uppercase tracking-wider text-blue-600">
                 Features
               </p>
-              <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
-                Everything you need to co-write
+              <h2 className="mt-3 text-balance text-3xl font-semibold tracking-tight sm:text-4xl">
+                Built for how teams actually write
               </h2>
-              <p className="mt-4 text-lg text-zinc-600">
-                Built for product teams, students, and anyone who still juggles
-                five copies of the same file.
+              <p className="mt-4 text-lg text-slate-600">
+                Less tool-switching. More shipping the words that matter.
               </p>
             </div>
 
-            <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {features.map((feature) => (
-                <div
+                <article
                   key={feature.title}
-                  className="group rounded-2xl border border-zinc-200 bg-zinc-50/50 p-6 transition hover:border-blue-200 hover:bg-white hover:shadow-lg hover:shadow-blue-500/5"
+                  className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-slate-50/40 p-6 transition duration-300 hover:-translate-y-0.5 hover:border-slate-300 hover:bg-white hover:shadow-xl hover:shadow-slate-900/5"
                 >
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-600/10 text-blue-600 ring-1 ring-blue-600/10 transition group-hover:bg-blue-600 group-hover:text-white">
+                  <div
+                    className={`flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br ${feature.accent} text-white shadow-md`}
+                  >
                     <svg
                       className="h-5 w-5"
                       fill="none"
@@ -338,13 +505,13 @@ export default function Home() {
                       {feature.icon}
                     </svg>
                   </div>
-                  <h3 className="mt-4 text-lg font-semibold text-zinc-900">
+                  <h3 className="mt-5 text-lg font-semibold text-slate-900">
                     {feature.title}
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-zinc-600">
+                  <p className="mt-2 text-sm leading-relaxed text-slate-600">
                     {feature.description}
                   </p>
-                </div>
+                </article>
               ))}
             </div>
           </div>
@@ -353,109 +520,102 @@ export default function Home() {
         {/* How it works */}
         <section
           id="how-it-works"
-          className="scroll-mt-20 border-t border-zinc-200 bg-zinc-50 py-20 sm:py-24"
+          className="scroll-mt-24 border-t border-slate-200/80 bg-slate-50 py-20 sm:py-28"
         >
-          <div className="mx-auto max-w-6xl px-6">
+          <div className="mx-auto max-w-6xl px-5 sm:px-6">
             <div className="mx-auto max-w-2xl text-center">
               <p className="text-sm font-semibold uppercase tracking-wider text-blue-600">
                 How it works
               </p>
               <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
-                Up and writing in three steps
+                From zero to co-writing in minutes
               </h2>
             </div>
 
-            <div className="mt-14 grid gap-8 md:grid-cols-3">
-              {steps.map((item, index) => (
-                <div key={item.step} className="relative">
-                  {index < steps.length - 1 && (
-                    <div
-                      aria-hidden
-                      className="absolute left-[calc(50%+2rem)] top-8 hidden h-px w-[calc(100%-4rem)] bg-gradient-to-r from-blue-300 to-transparent md:block"
-                    />
-                  )}
-                  <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
-                    <span className="text-sm font-bold text-blue-600">
-                      {item.step}
-                    </span>
-                    <h3 className="mt-3 text-xl font-semibold text-zinc-900">
-                      {item.title}
-                    </h3>
-                    <p className="mt-2 text-sm leading-relaxed text-zinc-600">
-                      {item.body}
-                    </p>
+            <div className="mt-14 grid gap-6 md:grid-cols-3">
+              {steps.map((item) => (
+                <div
+                  key={item.step}
+                  className="relative rounded-2xl border border-slate-200 bg-white p-7 shadow-sm"
+                >
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 text-sm font-bold text-white shadow-md shadow-blue-600/25">
+                    {item.step}
                   </div>
+                  <h3 className="mt-5 text-xl font-semibold text-slate-900">
+                    {item.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                    {item.body}
+                  </p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Social proof strip */}
-        <section className="border-t border-zinc-200 bg-white py-12">
-          <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 px-6 sm:flex-row">
-            <p className="text-center text-sm font-medium text-zinc-500 sm:text-left">
-              Powered by a modern stack teams trust
+        {/* Quote / vision band */}
+        <section className="border-t border-slate-200/80 bg-white py-16">
+          <div className="mx-auto max-w-3xl px-5 text-center sm:px-6">
+            <Logo size="lg" className="justify-center" />
+            <blockquote className="mt-8 text-balance text-2xl font-medium tracking-tight text-slate-800 sm:text-3xl">
+              &ldquo;One shared canvas. Everyone online. The draft ships
+              faster.&rdquo;
+            </blockquote>
+            <p className="mt-4 text-sm text-slate-500">
+              That&apos;s the CollabDocs promise — simple tools for serious
+              collaboration.
             </p>
-            <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm font-semibold tracking-wide text-zinc-400">
-              {["Next.js", "MongoDB", "Socket.IO", "Yjs", "TipTap"].map(
-                (tech) => (
-                  <span key={tech}>{tech}</span>
-                )
-              )}
-            </div>
           </div>
         </section>
 
-        {/* Bottom CTA */}
-        <section className="border-t border-zinc-200 bg-zinc-900 py-20 text-white">
-          <div className="mx-auto max-w-3xl px-6 text-center">
+        {/* CTA */}
+        <section className="relative overflow-hidden border-t border-slate-800 bg-slate-950 py-20 text-white sm:py-24">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_80%_at_50%_120%,rgba(37,99,235,0.35),transparent_60%)]"
+          />
+          <div className="relative mx-auto max-w-3xl px-5 text-center sm:px-6">
             <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-              Ready to write together?
+              Open a blank page. Invite the team.
             </h2>
-            <p className="mt-4 text-lg text-zinc-400">
-              Create your free account and open your first document in under a
-              minute.
+            <p className="mt-4 text-lg text-slate-400">
+              Your next doc doesn&apos;t need another folder of conflicting
+              copies. It needs CollabDocs.
             </p>
-            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
                 href="/register"
-                className="inline-flex h-12 w-full items-center justify-center rounded-full bg-blue-500 px-8 text-sm font-semibold text-white transition hover:bg-blue-400 sm:w-auto"
+                className="inline-flex h-12 w-full items-center justify-center rounded-full bg-white px-8 text-sm font-semibold text-slate-900 transition hover:bg-slate-100 sm:w-auto"
               >
-                Get started free
+                Create free account
               </Link>
               <Link
                 href="/login"
-                className="inline-flex h-12 w-full items-center justify-center rounded-full border border-zinc-600 px-8 text-sm font-semibold text-zinc-200 transition hover:border-zinc-500 hover:bg-zinc-800 sm:w-auto"
+                className="inline-flex h-12 w-full items-center justify-center rounded-full border border-slate-600 px-8 text-sm font-semibold text-slate-200 transition hover:border-slate-500 hover:bg-slate-900 sm:w-auto"
               >
-                I already have an account
+                Sign in
               </Link>
             </div>
           </div>
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-zinc-800 bg-zinc-950 py-10 text-zinc-400">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 sm:flex-row">
-          <div className="flex items-center gap-2">
-            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 text-xs font-bold text-white">
-              C
-            </span>
-            <span className="text-sm font-semibold text-zinc-200">
-              CollabDocs
-            </span>
-          </div>
-          <p className="text-center text-xs sm:text-sm">
-            © {new Date().getFullYear()} CollabDocs. Built for real-time
-            collaboration.
+      <footer className="border-t border-slate-800 bg-slate-950 py-10">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 px-5 sm:flex-row sm:px-6">
+          <Logo size="sm" variant="dark" />
+          <p className="text-center text-xs text-slate-500 sm:text-sm">
+            © {new Date().getFullYear()} CollabDocs. Write together in real
+            time.
           </p>
-          <div className="flex gap-4 text-xs sm:text-sm">
+          <div className="flex gap-5 text-sm text-slate-400">
             <a href="#features" className="transition hover:text-white">
               Features
             </a>
             <Link href="/login" className="transition hover:text-white">
               Sign in
+            </Link>
+            <Link href="/register" className="transition hover:text-white">
+              Register
             </Link>
           </div>
         </div>

@@ -16,6 +16,9 @@ export const metadata: Metadata = {
   title: "CollabDocs — Write together in real time",
   description:
     "Google Docs–style collaborative documents. Create, share, and edit live with your team in the browser.",
+  icons: {
+    icon: "/logo.svg",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
