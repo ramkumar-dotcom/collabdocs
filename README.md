@@ -1,36 +1,116 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CollabDocs
 
-## Getting Started
+Google Docs–style collaborative documents app.
 
-First, run the development server:
+**Stack:** Next.js · Tailwind CSS · Node.js · MongoDB · Socket.IO · Yjs · TipTap
+
+## Status
+
+Project **setup and dependencies** are complete. Feature work (auth UI, document CRUD, live editor) is next.
+
+## Prerequisites
+
+- Node.js 20+
+- MongoDB running locally, **or** a [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) connection string
+
+## Setup
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cd collabdocs
+cp .env.example .env.local   # already created with local defaults
+npm install                  # already done if you just cloned this scaffold
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Edit `.env.local` if needed:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Variable | Default | Purpose |
+|----------|---------|---------|
+| `MONGODB_URI` | `mongodb://127.0.0.1:27017/collabdocs` | Database |
+| `JWT_SECRET` | (dev placeholder) | Auth tokens |
+| `SOCKET_PORT` | `4000` | Collab server |
+| `NEXT_PUBLIC_SOCKET_URL` | `http://localhost:4000` | Client socket URL |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Scripts
 
-## Learn More
+```bash
+npm run dev          # Next.js (3000) + Socket/Yjs server (4000)
+npm run dev:web      # Next.js only
+npm run dev:socket   # Collaboration server only
+npm run build        # Production build
+npm run start        # Start Next.js production server
+npm run start:socket # Start collab server
+npm run lint
+npm run typecheck
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Project structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+collabdocs/
+├── server/
+│   └── index.ts              # Socket.IO + Yjs collab server
+├── src/
+│   ├── app/
+│   │   ├── api/health/       # Health + Mongo connectivity check
+│   │   ├── layout.tsx
+│   │   ├── page.tsx          # Landing / setup status
+│   │   └── globals.css
+│   ├── lib/
+│   │   ├── db.ts             # Cached Mongoose connection
+│   │   ├── auth.ts           # Password + JWT helpers
+│   │   └── utils.ts
+│   ├── models/
+│   │   ├── User.ts
+│   │   └── Document.ts
+│   └── types/
+│       └── index.ts
+├── .env.example
+├── .env.local
+└── package.json
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Installed packages (highlights)
 
-## Deploy on Vercel
+**App / data**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `next`, `react`, `react-dom`
+- `mongoose`
+- `zod`
+- `bcryptjs`, `jose`, `uuid`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Realtime collaboration**
+
+- `socket.io`, `socket.io-client`
+- `yjs`, `y-protocols`, `y-socket.io`
+
+**Editor**
+
+- `@tiptap/react`, `@tiptap/starter-kit`, `@tiptap/pm`
+- `@tiptap/extension-collaboration`
+- `@tiptap/extension-collaboration-caret`
+
+**Tooling**
+
+- `tailwindcss`, `typescript`, `eslint`
+- `tsx`, `concurrently`
+
+## Quick health check
+
+With MongoDB running and `npm run dev`:
+
+```bash
+curl http://localhost:3000/api/health
+curl http://localhost:4000
+```
+
+## Planned next steps
+
+1. Auth API + simple login/register UI  
+2. Document list and CRUD API  
+3. TipTap editor wired to Yjs rooms  
+4. Presence (cursors / collaborators)  
+5. Persist Yjs state to MongoDB  
+
+---
+
+Built as a from-scratch scaffold for iterative feature work.
