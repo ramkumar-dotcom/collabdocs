@@ -1,15 +1,14 @@
-# Force Node 20 on Railway (default was 18, which breaks Next/mongoose engines).
-# This service only runs the Socket.IO collab server — not `next build`.
+# Socket-only service: Node 20, install once, no Next.js build.
 
 [variables]
 NIXPACKS_NODE_VERSION = "20"
 
 [phases.install]
-cmds = ["npm ci"]
+cmds = ["npm ci --omit=dev"]
 
 [phases.build]
-# Vercel builds the Next app; Railway only needs node_modules for the socket server.
-cmds = ["echo 'Skipping next build (socket service)'"]
+# Intentionally empty work — avoid a second npm ci (EBUSY on cache mounts).
+cmds = ["echo 'Skipping next build (socket service only)'"]
 
 [start]
 cmd = "npm run start:socket"

@@ -1,8 +1,11 @@
-# Collab socket service on Railway (not the Next.js app — that stays on Vercel).
+# Collab socket service on Railway (Next.js stays on Vercel).
+# Do NOT set buildCommand to "npm ci" — Nixpacks already installs deps.
+# A second npm ci fights the node_modules cache mount (EBUSY).
 
 [build]
 builder = "NIXPACKS"
-buildCommand = "npm ci"
+# No-op build: socket server is plain TypeScript run via tsx (no next build).
+buildCommand = "echo 'socket service: skip compile'"
 watchPatterns = ["server/**", "package.json", "package-lock.json", "nixpacks.toml"]
 
 [deploy]
