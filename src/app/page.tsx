@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Logo } from "@/components/logo";
+import { LivePreviewTyping } from "@/components/live-preview-typing";
 
 const features = [
   {
@@ -304,93 +305,9 @@ export default function Home() {
                 </div>
 
                 <div className="grid lg:grid-cols-[1fr_220px]">
-                  {/* Page */}
+                  {/* Page — live typing simulation */}
                   <div className="relative min-h-[340px] bg-[linear-gradient(180deg,#fff_0%,#fafbfc_100%)] px-8 py-10 sm:px-16 sm:py-12">
-                    <div className="mx-auto max-w-xl">
-                      <div className="flex items-center gap-1">
-                        <h2 className="text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
-                          Q3 Product Roadmap
-                        </h2>
-                        <span className="animate-caret ml-0.5 inline-block h-8 w-0.5 bg-blue-500" />
-                      </div>
-                      <p className="mt-5 text-[15px] leading-7 text-slate-600">
-                        Ship a collaborative writing experience teams love:
-                        presence, permissions, and a canvas that never fights
-                        you.
-                      </p>
-
-                      <div className="mt-8 space-y-3">
-                        <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                          This sprint
-                        </p>
-                        {[
-                          {
-                            done: true,
-                            text: "Realtime multiplayer with colored carets",
-                            who: "Ava",
-                            color: "violet",
-                          },
-                          {
-                            done: true,
-                            text: "Secure auth & document ownership",
-                            who: "Jordan",
-                            color: "emerald",
-                          },
-                          {
-                            done: false,
-                            text: "Invite links & role-based access",
-                            who: null,
-                            color: null,
-                          },
-                        ].map((row) => (
-                          <div
-                            key={row.text}
-                            className="flex items-start gap-3 rounded-xl border border-slate-100 bg-white px-3.5 py-3 shadow-sm"
-                          >
-                            <span
-                              className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md text-[10px] font-bold text-white ${
-                                row.done ? "bg-emerald-500" : "bg-slate-200"
-                              }`}
-                            >
-                              {row.done ? "✓" : ""}
-                            </span>
-                            <div className="min-w-0 flex-1">
-                              <p className="text-sm text-slate-700">{row.text}</p>
-                              {row.who && (
-                                <span
-                                  className={`mt-1 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold ${
-                                    row.color === "violet"
-                                      ? "bg-violet-50 text-violet-700"
-                                      : "bg-emerald-50 text-emerald-700"
-                                  }`}
-                                >
-                                  <span
-                                    className={`h-1.5 w-1.5 rounded-full ${
-                                      row.color === "violet"
-                                        ? "bg-violet-500"
-                                        : "bg-emerald-500"
-                                    }`}
-                                  />
-                                  {row.who} is editing
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-
-                      <p className="relative mt-8 text-[15px] leading-7 text-slate-600">
-                        Next: polish the dashboard so teams can{" "}
-                        <span className="relative inline font-medium text-slate-900">
-                          onboard in under a minute
-                          <span className="absolute -top-6 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-violet-500 px-2 py-0.5 text-[10px] font-bold text-white shadow-md">
-                            Ava
-                          </span>
-                          <span className="absolute -bottom-0.5 left-0 right-0 h-[3px] rounded-full bg-violet-400/70" />
-                        </span>
-                        .
-                      </p>
-                    </div>
+                    <LivePreviewTyping />
                   </div>
 
                   {/* Presence rail */}
