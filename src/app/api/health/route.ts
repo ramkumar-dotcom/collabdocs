@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/lib/db";
 
+// Do not statically analyze / pre-render at build time (needs env at runtime)
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     await connectDB();
