@@ -1,12 +1,14 @@
 /**
  * Real-time collaboration server (Socket.IO + Yjs).
- * Run with: npm run dev:socket  (or npm run dev for Next + this together)
+ * Local:  npm run dev:socket
+ * Hosted: npm run start:socket  (Railway / Render / Fly set PORT)
  */
 import { createServer } from "http";
 import { Server } from "socket.io";
 import { YSocketIO } from "y-socket.io/dist/server";
 
-const PORT = Number(process.env.SOCKET_PORT || 4000);
+// Cloud hosts inject PORT; local uses SOCKET_PORT or 4000
+const PORT = Number(process.env.PORT || process.env.SOCKET_PORT || 4000);
 const CORS_ORIGIN = process.env.CORS_ORIGIN || "http://localhost:3000";
 
 const httpServer = createServer((_req, res) => {
@@ -26,6 +28,8 @@ const io = new Server(httpServer, {
     methods: ["GET", "POST"],
     credentials: true,
   },
+  // Helpful behind proxies (Railway, Render, etc.)
+  transports: ["websocket", "polling"],
 });
 
 // Yjs over Socket.IO — rooms map to document IDs
@@ -44,7 +48,8 @@ io.on("connection", (socket) => {
   });
 });
 
-httpServer.listen(PORT, () => {
-  console.log(`[collabdocs] collaboration server on http://localhost:${PORT}`);
+// 0.0.0.0 required on most cloud platforms
+httpServer.listen(PORT, "0.0.0.0", () => {
+  console.log(`[collabdocs] collaboration server listening on 0.0.0.0:${PORT}`);
   console.log(`[collabdocs] CORS origin: ${CORS_ORIGIN}`);
 });

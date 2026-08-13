@@ -1,0 +1,11 @@
+# Railway service config for the collab socket server.
+# In the Railway dashboard, set the start command to: npm run start:socket
+# (or rely on this file if your Railway project uses it).
+
+[build]
+builder = "NIXPACKS"
+
+[deploy]
+startCommand = "npm run start:socket"
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10

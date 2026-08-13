@@ -8,7 +8,7 @@
     "dev:socket": "tsx watch --env-file=.env.local server/index.ts",
     "build": "next build",
     "start": "next start",
-    "start:socket": "tsx --env-file=.env.local server/index.ts",
+    "start:socket": "tsx server/index.ts",
     "lint": "eslint",
     "typecheck": "tsc --noEmit"
   },
@@ -26,6 +26,7 @@
     "react-dom": "19.2.8",
     "socket.io": "^4.8.3",
     "socket.io-client": "^4.8.3",
+    "tsx": "^4.23.12",
     "uuid": "^14.0.1",
     "y-protocols": "^1.0.7",
     "y-socket.io": "^1.1.3",
@@ -43,7 +44,6 @@
     "eslint": "^9",
     "eslint-config-next": "16.3.0",
     "tailwindcss": "^4",
-    "tsx": "^4.23.12",
     "typescript": "^5"
   }
 }
