@@ -2,6 +2,9 @@
   "name": "collabdocs",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=20.9.0"
+  },
   "scripts": {
     "dev": "concurrently -n web,socket -c cyan,magenta \"npm run dev:web\" \"npm run dev:socket\"",
     "dev:web": "next dev",

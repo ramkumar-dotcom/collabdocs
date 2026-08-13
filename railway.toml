@@ -1,9 +1,9 @@
-# Railway service config for the collab socket server.
-# In the Railway dashboard, set the start command to: npm run start:socket
-# (or rely on this file if your Railway project uses it).
+# Collab socket service on Railway (not the Next.js app — that stays on Vercel).
 
 [build]
 builder = "NIXPACKS"
+buildCommand = "npm ci"
+watchPatterns = ["server/**", "package.json", "package-lock.json", "nixpacks.toml"]
 
 [deploy]
 startCommand = "npm run start:socket"
