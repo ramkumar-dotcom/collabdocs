@@ -110,14 +110,19 @@ const stats = [
 export default function Home() {
   return (
     <div className="flex min-h-full flex-1 flex-col bg-slate-50 text-slate-900">
-      {/* Nav */}
-      <header className="sticky top-0 z-50 border-b border-slate-200/70 bg-white/75 backdrop-blur-xl">
-        <div className="mx-auto flex h-[4.25rem] max-w-6xl items-center justify-between px-5 sm:px-6">
-          <Link href="/" className="transition opacity-100 hover:opacity-90">
+      {/* Nav — brand blue/indigo palette */}
+      <header className="sticky top-0 z-50 border-b border-blue-100/80 bg-gradient-to-r from-white via-blue-50/40 to-indigo-50/50 backdrop-blur-xl">
+        <div className="mx-auto grid h-16 max-w-6xl grid-cols-[1fr_auto] items-center gap-4 px-5 md:grid-cols-[1fr_auto_1fr] sm:px-6">
+          {/* Brand */}
+          <Link
+            href="/"
+            className="justify-self-start transition hover:opacity-90"
+          >
             <Logo size="md" />
           </Link>
 
-          <nav className="hidden items-center gap-1 text-sm font-medium text-slate-600 md:flex">
+          {/* Center links (desktop) */}
+          <nav className="hidden items-center rounded-full border border-blue-100/90 bg-white/70 p-1 shadow-sm shadow-blue-500/5 md:flex">
             {[
               { href: "#features", label: "Features" },
               { href: "#how-it-works", label: "How it works" },
@@ -126,25 +131,29 @@ export default function Home() {
               <a
                 key={item.href}
                 href={item.href}
-                className="rounded-full px-3.5 py-2 transition hover:bg-slate-100 hover:text-slate-900"
+                className="rounded-full px-4 py-1.5 text-sm font-medium text-slate-600 transition hover:bg-blue-50 hover:text-blue-700"
               >
                 {item.label}
               </a>
             ))}
           </nav>
 
-          <div className="flex items-center gap-2">
+          {/* Actions */}
+          <div className="flex items-center justify-end gap-2 justify-self-end">
             <Link
               href="/login"
-              className="hidden rounded-full px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100 sm:inline-flex"
+              className="hidden rounded-full px-4 py-2 text-sm font-semibold text-blue-700 transition hover:bg-blue-50 sm:inline-flex"
             >
               Sign in
             </Link>
             <Link
               href="/register"
-              className="inline-flex items-center rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm shadow-slate-900/10 transition hover:bg-slate-800"
+              className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-blue-600/25 transition hover:from-blue-500 hover:to-indigo-500 hover:shadow-blue-600/35"
             >
               Get started
+              <span aria-hidden className="text-blue-100">
+                →
+              </span>
             </Link>
           </div>
         </div>
