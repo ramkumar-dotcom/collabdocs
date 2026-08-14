@@ -3,12 +3,19 @@ import { redirect } from "next/navigation";
 import { Logo } from "@/components/logo";
 import { getSession } from "@/lib/session";
 import { LogoutButton } from "@/components/logout-button";
+import { NewNotepadCard } from "@/components/new-notepad-card";
+import connectDB from "@/lib/db";
+import { listUserDocuments } from "@/lib/documents";
+import { formatRelativeTime } from "@/lib/format";
 
 export default async function DashboardPage() {
   const user = await getSession();
   if (!user) {
     redirect("/login");
   }
+
+  await connectDB();
+  const documents = await listUserDocuments(user.id);
 
   const initial = user.name
     .split(" ")
@@ -38,45 +45,55 @@ export default async function DashboardPage() {
       </header>
 
       <main className="mx-auto w-full max-w-6xl flex-1 px-5 py-10 sm:px-6">
-        <p className="text-sm font-semibold text-blue-600">Your workspace</p>
-        <h1 className="mt-1 text-3xl font-semibold tracking-tight text-slate-900">
-          Welcome back, {user.name.split(" ")[0]}
+        <h1 className="text-3xl font-semibold tracking-tight text-slate-900">
+          Welcome, {user.name.split(" ")[0]}
         </h1>
-        <p className="mt-2 max-w-xl text-slate-600">
-          You&apos;re signed in. Document list and the live editor come next —
-          your account is saved in MongoDB.
+        <p className="mt-2 text-slate-600">
+          Start a new notepad or pick up where you left off.
         </p>
 
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <div className="rounded-2xl border border-dashed border-blue-200 bg-white p-6">
-            <p className="text-sm font-semibold text-slate-800">
-              Create a document
-            </p>
-            <p className="mt-2 text-sm text-slate-500">
-              The editor and live collaboration will live here.
-            </p>
-            <button
-              type="button"
-              disabled
-              className="mt-4 rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-400"
-            >
-              Coming soon
-            </button>
+        <section className="mt-10">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-400">
+            Start a new notepad
+          </h2>
+          <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <NewNotepadCard />
           </div>
-          <div className="rounded-2xl border border-slate-200 bg-white p-6">
-            <p className="text-sm font-semibold text-slate-800">Account</p>
-            <dl className="mt-3 space-y-2 text-sm">
-              <div>
-                <dt className="text-slate-400">Name</dt>
-                <dd className="font-medium text-slate-800">{user.name}</dd>
-              </div>
-              <div>
-                <dt className="text-slate-400">Email</dt>
-                <dd className="font-medium text-slate-800">{user.email}</dd>
-              </div>
-            </dl>
-          </div>
-        </div>
+        </section>
+
+        <section className="mt-12">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-400">
+            Recent
+          </h2>
+
+          {documents.length === 0 ? (
+            <p className="mt-6 rounded-2xl border border-slate-200 bg-white px-6 py-10 text-center text-sm text-slate-500">
+              No notepads yet. Create one above to get started.
+            </p>
+          ) : (
+            <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {documents.map((doc) => (
+                <Link
+                  key={doc.id}
+                  href={`/docs/${doc.id}`}
+                  className="group flex min-h-[220px] flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-md"
+                >
+                  <div className="flex h-28 items-start overflow-hidden rounded-xl bg-gradient-to-br from-slate-50 to-blue-50 p-3">
+                    <p className="line-clamp-5 text-[11px] leading-4 text-slate-400">
+                      {doc.preview || "Empty notepad"}
+                    </p>
+                  </div>
+                  <h3 className="mt-4 truncate text-base font-semibold text-slate-900 group-hover:text-blue-700">
+                    {doc.title}
+                  </h3>
+                  <p className="mt-1 text-xs text-slate-500">
+                    Opened {formatRelativeTime(doc.updatedAt)}
+                  </p>
+                </Link>
+              ))}
+            </div>
+          )}
+        </section>
       </main>
     </div>
   );
