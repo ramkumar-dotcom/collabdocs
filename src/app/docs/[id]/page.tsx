@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { Logo } from "@/components/logo";
-import { LogoutButton } from "@/components/logout-button";
+import { AppHeader } from "@/components/app-header";
 import { NotepadEditor } from "@/components/notepad-editor";
 import connectDB from "@/lib/db";
 import DocumentModel from "@/models/Document";
@@ -32,22 +31,18 @@ export default async function DocPage({ params }: PageProps) {
 
   return (
     <div className="flex min-h-full flex-1 flex-col bg-slate-50">
-      <header className="border-b border-blue-100/80 bg-white/90 backdrop-blur">
-        <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-5 sm:px-6">
-          <div className="flex items-center gap-4">
-            <Link href="/dashboard">
-              <Logo size="sm" />
-            </Link>
-            <Link
-              href="/dashboard"
-              className="text-sm font-medium text-slate-500 hover:text-blue-700"
-            >
-              ← All notepads
-            </Link>
-          </div>
-          <LogoutButton />
-        </div>
-      </header>
+      <AppHeader
+        user={user}
+        wide={false}
+        left={
+          <Link
+            href="/dashboard"
+            className="text-sm font-medium text-slate-500 hover:text-blue-700"
+          >
+            ← All notepads
+          </Link>
+        }
+      />
 
       <main className="mx-auto w-full max-w-5xl flex-1 px-5 py-8 sm:px-6">
         <NotepadEditor

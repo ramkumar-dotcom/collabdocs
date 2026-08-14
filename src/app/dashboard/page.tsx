@@ -1,8 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Logo } from "@/components/logo";
+import { AppHeader } from "@/components/app-header";
 import { getSession } from "@/lib/session";
-import { LogoutButton } from "@/components/logout-button";
 import { NewNotepadCard } from "@/components/new-notepad-card";
 import connectDB from "@/lib/db";
 import { listUserDocuments } from "@/lib/documents";
@@ -17,32 +16,9 @@ export default async function DashboardPage() {
   await connectDB();
   const documents = await listUserDocuments(user.id);
 
-  const initial = user.name
-    .split(" ")
-    .map((part) => part[0])
-    .join("")
-    .slice(0, 2)
-    .toUpperCase();
-
   return (
     <div className="flex min-h-full flex-1 flex-col bg-slate-50">
-      <header className="border-b border-blue-100/80 bg-white/90 backdrop-blur">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-6">
-          <Link href="/dashboard">
-            <Logo size="md" />
-          </Link>
-          <div className="flex items-center gap-3">
-            <div className="hidden text-right sm:block">
-              <p className="text-sm font-semibold text-slate-800">{user.name}</p>
-              <p className="text-xs text-slate-500">{user.email}</p>
-            </div>
-            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 text-xs font-bold text-white">
-              {initial}
-            </span>
-            <LogoutButton />
-          </div>
-        </div>
-      </header>
+      <AppHeader user={user} />
 
       <main className="mx-auto w-full max-w-6xl flex-1 px-5 py-10 sm:px-6">
         <h1 className="text-3xl font-semibold tracking-tight text-slate-900">

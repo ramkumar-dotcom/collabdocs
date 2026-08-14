@@ -30,7 +30,9 @@ export async function middleware(request: NextRequest) {
 
   if (
     !loggedIn &&
-    (pathname.startsWith("/dashboard") || pathname.startsWith("/docs"))
+    (pathname.startsWith("/dashboard") ||
+      pathname.startsWith("/docs") ||
+      pathname.startsWith("/settings"))
   ) {
     const login = new URL("/login", request.url);
     login.searchParams.set("next", pathname);
@@ -41,5 +43,11 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/docs/:path*", "/login", "/register"],
+  matcher: [
+    "/dashboard/:path*",
+    "/docs/:path*",
+    "/settings/:path*",
+    "/login",
+    "/register",
+  ],
 };
