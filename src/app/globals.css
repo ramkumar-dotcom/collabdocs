@@ -141,3 +141,102 @@ button:disabled,
     transparent
   );
 }
+
+/* Word-like notepad canvas */
+.notepad-prose {
+  font-size: 16px;
+  line-height: 1.75;
+  color: #334155;
+}
+
+.dark .notepad-prose {
+  color: #e2e8f0;
+}
+
+.notepad-prose p {
+  margin: 0 0 0.75rem;
+}
+
+.notepad-prose h1 {
+  margin: 0 0 0.75rem;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #0f172a;
+}
+
+.notepad-prose h2 {
+  margin: 1rem 0 0.6rem;
+  font-size: 1.5rem;
+  font-weight: 650;
+  line-height: 1.25;
+  color: #0f172a;
+}
+
+.notepad-prose h3 {
+  margin: 0.9rem 0 0.5rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.dark .notepad-prose h1,
+.dark .notepad-prose h2,
+.dark .notepad-prose h3 {
+  color: #f8fafc;
+}
+
+.notepad-prose ul {
+  margin: 0 0 0.75rem;
+  padding-left: 1.4rem;
+  list-style: disc;
+}
+
+.notepad-prose ol {
+  margin: 0 0 0.75rem;
+  padding-left: 1.4rem;
+  list-style: decimal;
+}
+
+.notepad-prose li {
+  margin: 0.15rem 0;
+}
+
+.notepad-prose blockquote {
+  margin: 0.75rem 0;
+  border-left: 3px solid #93c5fd;
+  padding-left: 0.9rem;
+  color: #64748b;
+}
+
+.dark .notepad-prose blockquote {
+  border-left-color: #3b82f6;
+  color: #94a3b8;
+}
+
+.notepad-prose a {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+.notepad-prose hr {
+  margin: 1.25rem 0;
+  border: 0;
+  border-top: 1px solid #e2e8f0;
+}
+
+.dark .notepad-prose hr {
+  border-top-color: #334155;
+}
+
+.notepad-prose p.is-editor-empty:first-child::before {
+  pointer-events: none;
+  float: left;
+  height: 0;
+  color: #94a3b8;
+  content: attr(data-placeholder);
+}
+
+.tiptap:focus {
+  outline: none;
+}
