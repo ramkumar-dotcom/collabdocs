@@ -3,10 +3,6 @@ import connectDB from "@/lib/db";
 import User from "@/models/User";
 import { hashPassword } from "@/lib/auth";
 import { registerSchema } from "@/lib/auth-schema";
-import {
-  attachSessionCookie,
-  createSessionToken,
-} from "@/lib/session";
 
 export const dynamic = "force-dynamic";
 
@@ -38,16 +34,18 @@ export async function POST(request: Request) {
     const passwordHash = await hashPassword(password);
     const user = await User.create({ name, email, passwordHash });
 
-    const sessionUser = {
-      id: user._id.toString(),
-      name: user.name,
-      email: user.email,
-    };
-
-    const token = await createSessionToken(sessionUser);
-    const response = NextResponse.json({ user: sessionUser }, { status: 201 });
-    attachSessionCookie(response, token, true);
-    return response;
+    // Account only — user must sign in separately
+    return NextResponse.json(
+      {
+        ok: true,
+        user: {
+          id: user._id.toString(),
+          name: user.name,
+          email: user.email,
+        },
+      },
+      { status: 201 }
+    );
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "Unable to create account";

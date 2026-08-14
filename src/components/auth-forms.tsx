@@ -55,6 +55,7 @@ function safeNextPath(value: string | null): string {
 export function SignInForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const justRegistered = searchParams.get("registered") === "1";
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
 
@@ -94,6 +95,15 @@ export function SignInForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
+      {justRegistered && !error && (
+        <p
+          role="status"
+          className="rounded-xl border border-emerald-200 bg-emerald-50 px-3.5 py-2.5 text-sm text-emerald-800"
+        >
+          Account created. Sign in to open your workspace.
+        </p>
+      )}
+
       {error && (
         <p
           role="alert"
@@ -210,7 +220,7 @@ export function RegisterForm() {
         return;
       }
 
-      router.push("/dashboard");
+      router.push("/login?registered=1");
       router.refresh();
     } catch {
       setError("Network error. Please try again.");
