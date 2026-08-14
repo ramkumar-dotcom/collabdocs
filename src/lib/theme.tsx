@@ -9,72 +9,43 @@ import {
   type ReactNode,
 } from "react";
 
-export type Theme = "light" | "dark" | "system";
+export type Theme = "light" | "dark";
 
 const STORAGE_KEY = "collabdocs-theme";
 
 type ThemeContextValue = {
   theme: Theme;
-  resolved: "light" | "dark";
   setTheme: (theme: Theme) => void;
 };
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
-function getSystemTheme(): "light" | "dark" {
-  if (typeof window === "undefined") return "light";
-  return window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? "dark"
-    : "light";
+function applyTheme(theme: Theme) {
+  document.documentElement.classList.toggle("dark", theme === "dark");
+  document.documentElement.style.colorScheme = theme;
 }
 
-function applyTheme(theme: Theme) {
-  const resolved = theme === "system" ? getSystemTheme() : theme;
-  document.documentElement.classList.toggle("dark", resolved === "dark");
-  document.documentElement.style.colorScheme = resolved;
+function readStoredTheme(): Theme {
+  const stored = localStorage.getItem(STORAGE_KEY);
+  return stored === "dark" ? "dark" : "light";
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>("system");
-  const [resolved, setResolved] = useState<"light" | "dark">("light");
+  const [theme, setThemeState] = useState<Theme>("light");
 
   useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    const next: Theme =
-      stored === "light" || stored === "dark" || stored === "system"
-        ? stored
-        : "system";
+    const next = readStoredTheme();
     setThemeState(next);
-    const value = next === "system" ? getSystemTheme() : next;
-    setResolved(value);
     applyTheme(next);
   }, []);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-color-scheme: dark)");
-    const onChange = () => {
-      if (theme === "system") {
-        const value = getSystemTheme();
-        setResolved(value);
-        applyTheme("system");
-      }
-    };
-    mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
-  }, [theme]);
 
   const setTheme = (next: Theme) => {
     localStorage.setItem(STORAGE_KEY, next);
     setThemeState(next);
-    const value = next === "system" ? getSystemTheme() : next;
-    setResolved(value);
     applyTheme(next);
   };
 
-  const value = useMemo(
-    () => ({ theme, resolved, setTheme }),
-    [theme, resolved]
-  );
+  const value = useMemo(() => ({ theme, setTheme }), [theme]);
 
   return (
     <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>

@@ -24,34 +24,20 @@ function MoonIcon({ className }: { className?: string }) {
   );
 }
 
-function MonitorIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
-      <rect x="3" y="4" width="18" height="13" rx="2" />
-      <path strokeLinecap="round" d="M8 21h8M12 17v4" />
-    </svg>
-  );
-}
-
-/** Compact icon that cycles light → dark → system. */
+/** Toggles light ↔ dark. */
 export function ThemeToggle({ className }: { className?: string }) {
-  const { theme, resolved, setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
 
-  function cycle() {
-    const order: Theme[] = ["light", "dark", "system"];
-    const i = order.indexOf(theme);
-    setTheme(order[(i + 1) % order.length]);
+  function toggle() {
+    setTheme(theme === "dark" ? "light" : "dark");
   }
 
-  const label =
-    theme === "system"
-      ? `Theme: system (${resolved})`
-      : `Theme: ${theme}`;
+  const label = theme === "dark" ? "Switch to light mode" : "Switch to dark mode";
 
   return (
     <button
       type="button"
-      onClick={cycle}
+      onClick={toggle}
       title={label}
       aria-label={label}
       className={cn(
@@ -59,9 +45,7 @@ export function ThemeToggle({ className }: { className?: string }) {
         className
       )}
     >
-      {theme === "system" ? (
-        <MonitorIcon className="h-4 w-4" />
-      ) : resolved === "dark" ? (
+      {theme === "dark" ? (
         <MoonIcon className="h-4 w-4" />
       ) : (
         <SunIcon className="h-4 w-4" />
@@ -73,7 +57,6 @@ export function ThemeToggle({ className }: { className?: string }) {
 const OPTIONS: { value: Theme; label: string }[] = [
   { value: "light", label: "Light" },
   { value: "dark", label: "Dark" },
-  { value: "system", label: "System" },
 ];
 
 export function ThemePicker() {
@@ -84,7 +67,7 @@ export function ThemePicker() {
       <p className="mb-2 px-1 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
         Appearance
       </p>
-      <div className="grid grid-cols-3 gap-1 rounded-xl bg-slate-100 p-1 dark:bg-slate-800">
+      <div className="grid grid-cols-2 gap-1 rounded-xl bg-slate-100 p-1 dark:bg-slate-800">
         {OPTIONS.map((opt) => (
           <button
             key={opt.value}
