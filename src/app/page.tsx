@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Logo } from "@/components/logo";
 import { LivePreviewTyping } from "@/components/live-preview-typing";
+import { getSession } from "@/lib/session";
 
 const features = [
   {
@@ -108,7 +109,9 @@ const stats = [
   { value: "Fast", label: "Next.js edge-ready UI" },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const user = await getSession();
+
   return (
     <div className="flex min-h-full flex-1 flex-col bg-slate-50 text-slate-900">
       {/* Nav — brand blue/indigo palette */}
@@ -141,21 +144,35 @@ export default function Home() {
 
           {/* Actions */}
           <div className="flex items-center justify-end gap-2 justify-self-end">
-            <Link
-              href="/login"
-              className="hidden rounded-full px-4 py-2 text-sm font-semibold text-blue-700 transition hover:bg-blue-50 sm:inline-flex"
-            >
-              Sign in
-            </Link>
-            <Link
-              href="/register"
-              className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-blue-600/25 transition hover:from-blue-500 hover:to-indigo-500 hover:shadow-blue-600/35"
-            >
-              Get started
-              <span aria-hidden className="text-blue-100">
-                →
-              </span>
-            </Link>
+            {user ? (
+              <Link
+                href="/dashboard"
+                className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-blue-600/25 transition hover:from-blue-500 hover:to-indigo-500"
+              >
+                Open workspace
+                <span aria-hidden className="text-blue-100">
+                  →
+                </span>
+              </Link>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="hidden rounded-full px-4 py-2 text-sm font-semibold text-blue-700 transition hover:bg-blue-50 sm:inline-flex"
+                >
+                  Sign in
+                </Link>
+                <Link
+                  href="/register"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-blue-600/25 transition hover:from-blue-500 hover:to-indigo-500 hover:shadow-blue-600/35"
+                >
+                  Get started
+                  <span aria-hidden className="text-blue-100">
+                    →
+                  </span>
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </header>

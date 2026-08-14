@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { AuthShell } from "@/components/auth-shell";
 import { SignInForm } from "@/components/auth-forms";
@@ -13,7 +14,13 @@ export default function LoginPage() {
       title="Welcome back"
       subtitle="Sign in to open your documents and keep writing with your team."
     >
-      <SignInForm />
+      <Suspense
+        fallback={
+          <p className="text-sm text-slate-500">Loading sign in form…</p>
+        }
+      >
+        <SignInForm />
+      </Suspense>
     </AuthShell>
   );
 }

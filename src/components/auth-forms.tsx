@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState, type FormEvent } from "react";
 
 const fieldClass =
@@ -44,14 +45,64 @@ function PasswordInput({
   );
 }
 
+function safeNextPath(value: string | null): string {
+  if (value && value.startsWith("/") && !value.startsWith("//")) {
+    return value;
+  }
+  return "/dashboard";
+}
+
 export function SignInForm() {
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [error, setError] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
+
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    // UI only — auth API comes later
+    setError(null);
+    setPending(true);
+
+    const form = new FormData(e.currentTarget);
+
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: String(form.get("email") ?? ""),
+          password: String(form.get("password") ?? ""),
+          remember: form.get("remember") === "on",
+        }),
+      });
+
+      const data = (await res.json()) as { error?: string };
+
+      if (!res.ok) {
+        setError(data.error ?? "Unable to sign in");
+        return;
+      }
+
+      router.push(safeNextPath(searchParams.get("next")));
+      router.refresh();
+    } catch {
+      setError("Network error. Please try again.");
+    } finally {
+      setPending(false);
+    }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4" noValidate={false}>
+    <form onSubmit={handleSubmit} className="space-y-4">
+      {error && (
+        <p
+          role="alert"
+          className="rounded-xl border border-red-200 bg-red-50 px-3.5 py-2.5 text-sm text-red-700"
+        >
+          {error}
+        </p>
+      )}
+
       <div>
         <label htmlFor="email" className={labelClass}>
           Email
@@ -74,7 +125,9 @@ export function SignInForm() {
           </label>
           <button
             type="button"
-            className="text-xs font-semibold text-blue-600 hover:text-blue-700"
+            className="text-xs font-semibold text-slate-400"
+            disabled
+            title="Coming soon"
           >
             Forgot password?
           </button>
@@ -91,6 +144,7 @@ export function SignInForm() {
         <input
           type="checkbox"
           name="remember"
+          defaultChecked
           className="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
         />
         Remember me for 7 days
@@ -98,9 +152,10 @@ export function SignInForm() {
 
       <button
         type="submit"
-        className="mt-2 inline-flex h-11 w-full items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-sm font-semibold text-white shadow-md shadow-blue-600/25 transition hover:from-blue-500 hover:to-indigo-500"
+        disabled={pending}
+        className="mt-2 inline-flex h-11 w-full items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-sm font-semibold text-white shadow-md shadow-blue-600/25 transition hover:from-blue-500 hover:to-indigo-500 disabled:cursor-not-allowed disabled:opacity-70"
       >
-        Sign in
+        {pending ? "Signing in…" : "Sign in"}
       </button>
 
       <p className="pt-2 text-center text-sm text-slate-500">
@@ -117,13 +172,64 @@ export function SignInForm() {
 }
 
 export function RegisterForm() {
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  const router = useRouter();
+  const [error, setError] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
+
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    // UI only — auth API comes later
+    setError(null);
+    setPending(true);
+
+    const form = new FormData(e.currentTarget);
+    const password = String(form.get("password") ?? "");
+    const confirm = String(form.get("confirm") ?? "");
+
+    if (password !== confirm) {
+      setError("Passwords do not match");
+      setPending(false);
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: String(form.get("name") ?? ""),
+          email: String(form.get("email") ?? ""),
+          password,
+          confirm,
+        }),
+      });
+
+      const data = (await res.json()) as { error?: string };
+
+      if (!res.ok) {
+        setError(data.error ?? "Unable to create account");
+        return;
+      }
+
+      router.push("/dashboard");
+      router.refresh();
+    } catch {
+      setError("Network error. Please try again.");
+    } finally {
+      setPending(false);
+    }
   }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
+      {error && (
+        <p
+          role="alert"
+          className="rounded-xl border border-red-200 bg-red-50 px-3.5 py-2.5 text-sm text-red-700"
+        >
+          {error}
+        </p>
+      )}
+
       <div>
         <label htmlFor="name" className={labelClass}>
           Full name
@@ -133,6 +239,7 @@ export function RegisterForm() {
           name="name"
           type="text"
           required
+          minLength={2}
           autoComplete="name"
           placeholder="Ava Kim"
           className={fieldClass}
@@ -194,9 +301,10 @@ export function RegisterForm() {
 
       <button
         type="submit"
-        className="mt-2 inline-flex h-11 w-full items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-sm font-semibold text-white shadow-md shadow-blue-600/25 transition hover:from-blue-500 hover:to-indigo-500"
+        disabled={pending}
+        className="mt-2 inline-flex h-11 w-full items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-sm font-semibold text-white shadow-md shadow-blue-600/25 transition hover:from-blue-500 hover:to-indigo-500 disabled:cursor-not-allowed disabled:opacity-70"
       >
-        Create account
+        {pending ? "Creating account…" : "Create account"}
       </button>
 
       <p className="pt-2 text-center text-sm text-slate-500">
