@@ -39,7 +39,7 @@ export function NotepadEditor({ id, initialTitle, initialContent }: Props) {
   }, [id, title, content]);
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white px-6 py-8 shadow-sm sm:px-12 sm:py-10">
+    <div className="rounded-2xl border border-slate-200 bg-white px-6 py-8 shadow-sm sm:px-12 sm:py-10 dark:border-slate-800 dark:bg-slate-900">
       <div className="mb-4 flex items-center justify-between text-xs text-slate-400">
         <span className="inline-flex items-center gap-1.5">
           {status === "saving" && (
@@ -56,13 +56,13 @@ export function NotepadEditor({ id, initialTitle, initialContent }: Props) {
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         placeholder="Untitled notepad"
-        className="w-full border-none bg-transparent text-3xl font-semibold tracking-tight text-slate-900 outline-none placeholder:text-slate-300"
+        className="w-full border-none bg-transparent text-3xl font-semibold tracking-tight text-slate-900 outline-none placeholder:text-slate-300 dark:text-white dark:placeholder:text-slate-600"
       />
       <textarea
         value={content}
         onChange={(e) => setContent(e.target.value)}
         placeholder="Start writing…"
-        className="mt-6 min-h-[55vh] w-full resize-none border-none bg-transparent text-[17px] leading-8 text-slate-700 outline-none placeholder:text-slate-300"
+        className="mt-6 min-h-[55vh] w-full resize-none border-none bg-transparent text-[17px] leading-8 text-slate-700 outline-none placeholder:text-slate-300 dark:text-slate-200 dark:placeholder:text-slate-600"
       />
     </div>
   );

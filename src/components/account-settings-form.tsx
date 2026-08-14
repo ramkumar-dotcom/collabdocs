@@ -5,7 +5,7 @@ import { useState, type FormEvent } from "react";
 import { Button } from "@/components/ui";
 
 const fieldClass =
-  "h-11 w-full rounded-xl border border-slate-200 bg-white px-3.5 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-blue-400 focus:ring-4 focus:ring-blue-500/15";
+  "h-11 w-full rounded-xl border border-slate-200 bg-white px-3.5 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-blue-400 focus:ring-4 focus:ring-blue-500/15 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500";
 
 type Props = {
   name: string;
@@ -86,24 +86,26 @@ export function AccountSettingsForm({ name, email }: Props) {
     <div className="mt-8 space-y-6">
       <form
         onSubmit={saveName}
-        className="space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+        className="space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900"
       >
-        <h2 className="text-lg font-semibold text-slate-900">Profile</h2>
+        <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
+          Profile
+        </h2>
         <div>
-          <label className="mb-1.5 block text-sm font-medium text-slate-700">
+          <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">
             Email
           </label>
           <input
             value={email}
             disabled
-            className={`${fieldClass} cursor-not-allowed bg-slate-50 text-slate-500`}
+            className={`${fieldClass} cursor-not-allowed bg-slate-50 text-slate-500 dark:bg-slate-800 dark:text-slate-400`}
           />
           <p className="mt-1 text-xs text-slate-400">Email can’t be changed.</p>
         </div>
         <div>
           <label
             htmlFor="name"
-            className="mb-1.5 block text-sm font-medium text-slate-700"
+            className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300"
           >
             Display name
           </label>
@@ -125,13 +127,15 @@ export function AccountSettingsForm({ name, email }: Props) {
 
       <form
         onSubmit={savePassword}
-        className="space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+        className="space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900"
       >
-        <h2 className="text-lg font-semibold text-slate-900">Password</h2>
+        <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
+          Password
+        </h2>
         <div>
           <label
             htmlFor="currentPassword"
-            className="mb-1.5 block text-sm font-medium text-slate-700"
+            className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300"
           >
             Current password
           </label>
@@ -147,7 +151,7 @@ export function AccountSettingsForm({ name, email }: Props) {
         <div>
           <label
             htmlFor="newPassword"
-            className="mb-1.5 block text-sm font-medium text-slate-700"
+            className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300"
           >
             New password
           </label>
@@ -164,7 +168,7 @@ export function AccountSettingsForm({ name, email }: Props) {
         <div>
           <label
             htmlFor="confirmPassword"
-            className="mb-1.5 block text-sm font-medium text-slate-700"
+            className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300"
           >
             Confirm new password
           </label>

@@ -109,7 +109,7 @@ export function LivePreviewTyping() {
     <div className="mx-auto max-w-xl">
       {/* Title with typing */}
       <div className="flex min-h-[2.75rem] items-center gap-0.5">
-        <h2 className="text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
+        <h2 className="text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl dark:text-white">
           {TITLE.slice(0, titleChars)}
           {phase === "title" && (
             <span className="animate-caret ml-0.5 inline-block h-8 w-0.5 align-middle bg-blue-500" />
@@ -125,9 +125,9 @@ export function LivePreviewTyping() {
           return (
             <p
               key={`${i}-${text.slice(0, 12)}`}
-              className="relative text-[15px] leading-7 text-slate-600"
+              className="relative text-[15px] leading-7 text-slate-600 dark:text-slate-300"
             >
-              <span className="relative font-medium text-slate-800">
+              <span className="relative font-medium text-slate-800 dark:text-slate-100">
                 {text}
                 <span
                   className={`absolute -top-5 left-0 whitespace-nowrap rounded-md px-1.5 py-0.5 text-[10px] font-bold text-white shadow-sm ${colors.tag}`}
@@ -141,8 +141,8 @@ export function LivePreviewTyping() {
 
         {/* Active typing line */}
         {active && phase === "body" && (
-          <p className="relative text-[15px] leading-7 text-slate-600">
-            <span className="relative font-medium text-slate-800">
+          <p className="relative text-[15px] leading-7 text-slate-600 dark:text-slate-300">
+            <span className="relative font-medium text-slate-800 dark:text-slate-100">
               {typedBody}
               <span
                 className={`absolute -top-5 left-0 whitespace-nowrap rounded-md px-1.5 py-0.5 text-[10px] font-bold text-white shadow-sm ${activeColors.tag}`}
@@ -190,7 +190,7 @@ export function LivePreviewTyping() {
         ].map((row) => (
           <div
             key={row.text}
-            className="flex items-start gap-3 rounded-xl border border-slate-100 bg-white px-3.5 py-3 shadow-sm"
+            className="flex items-start gap-3 rounded-xl border border-slate-100 bg-white px-3.5 py-3 shadow-sm dark:border-slate-800 dark:bg-slate-900"
           >
             <span
               className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md text-[10px] font-bold text-white ${
@@ -200,7 +200,7 @@ export function LivePreviewTyping() {
               {row.done ? "✓" : ""}
             </span>
             <div className="min-w-0 flex-1">
-              <p className="text-sm text-slate-700">{row.text}</p>
+              <p className="text-sm text-slate-700 dark:text-slate-300">{row.text}</p>
               {row.who && (
                 <span
                   className={`mt-1 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold ${

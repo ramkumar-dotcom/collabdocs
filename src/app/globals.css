@@ -1,8 +1,15 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --background: #f8fafc;
   --foreground: #0f172a;
+}
+
+.dark {
+  --background: #020617;
+  --foreground: #f1f5f9;
 }
 
 @theme inline {
@@ -29,6 +36,12 @@ html {
     linear-gradient(to bottom, rgb(15 23 42 / 0.04) 1px, transparent 1px);
   background-size: 48px 48px;
   mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black 20%, transparent 75%);
+}
+
+.dark .hero-grid {
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.05) 1px, transparent 1px);
 }
 
 @keyframes float-soft {
@@ -102,6 +115,10 @@ button:disabled,
   background-color: #e8eef7;
 }
 
+.dark .shimmer {
+  background-color: #1e293b;
+}
+
 .shimmer::after {
   content: "";
   position: absolute;
@@ -114,4 +131,13 @@ button:disabled,
     transparent
   );
   animation: shimmer-slide 1.35s ease-in-out infinite;
+}
+
+.dark .shimmer::after {
+  background-image: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.08),
+    transparent
+  );
 }

@@ -6,11 +6,11 @@ export default async function DashboardLoading() {
   const user = await getSession();
 
   return (
-    <div className="flex min-h-full flex-1 flex-col bg-slate-50">
+    <div className="flex min-h-full flex-1 flex-col bg-slate-50 dark:bg-slate-950">
       {user ? (
         <AppHeader user={user} />
       ) : (
-        <header className="h-16 border-b border-blue-100/80 bg-white/90" />
+        <header className="h-16 border-b border-blue-100/80 bg-white/90 dark:border-slate-800 dark:bg-slate-950" />
       )}
       <DashboardSkeleton />
     </div>

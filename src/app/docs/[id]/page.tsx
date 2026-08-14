@@ -30,14 +30,14 @@ export default async function DocPage({ params }: PageProps) {
   }
 
   return (
-    <div className="flex min-h-full flex-1 flex-col bg-slate-50">
+    <div className="flex min-h-full flex-1 flex-col bg-slate-50 dark:bg-slate-950">
       <AppHeader
         user={user}
         wide={false}
         left={
           <Link
             href="/dashboard"
-            className="text-sm font-medium text-slate-500 hover:text-blue-700"
+            className="text-sm font-medium text-slate-500 hover:text-blue-700 dark:text-slate-400 dark:hover:text-blue-300"
           >
             ← All notepads
           </Link>

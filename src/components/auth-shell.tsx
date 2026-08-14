@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Logo } from "@/components/logo";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 type AuthShellProps = {
   children: React.ReactNode;
@@ -9,7 +10,7 @@ type AuthShellProps = {
 
 export function AuthShell({ children, title, subtitle }: AuthShellProps) {
   return (
-    <div className="flex min-h-full flex-1 bg-slate-50">
+    <div className="flex min-h-full flex-1 bg-slate-50 dark:bg-slate-950">
       {/* Brand panel */}
       <aside className="relative hidden w-[44%] overflow-hidden bg-gradient-to-br from-blue-600 via-indigo-600 to-violet-700 lg:flex lg:flex-col">
         <div
@@ -79,24 +80,27 @@ export function AuthShell({ children, title, subtitle }: AuthShellProps) {
 
       {/* Form panel */}
       <div className="flex flex-1 flex-col">
-        <header className="flex items-center justify-between px-5 py-5 sm:px-8 lg:justify-end">
+        <header className="flex items-center justify-between gap-3 px-5 py-5 sm:px-8">
           <Link href="/" className="lg:hidden">
             <Logo size="sm" />
           </Link>
-          <Link
-            href="/"
-            className="text-sm font-medium text-slate-500 transition hover:text-blue-700"
-          >
-            ← Back to home
-          </Link>
+          <div className="ml-auto flex items-center gap-3">
+            <ThemeToggle />
+            <Link
+              href="/"
+              className="text-sm font-medium text-slate-500 transition hover:text-blue-700 dark:text-slate-400 dark:hover:text-blue-300"
+            >
+              ← Back to home
+            </Link>
+          </div>
         </header>
 
         <div className="flex flex-1 items-center justify-center px-5 pb-16 sm:px-8">
           <div className="w-full max-w-[420px]">
-            <h1 className="text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">
+            <h1 className="text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl dark:text-white">
               {title}
             </h1>
-            <p className="mt-2 text-sm leading-relaxed text-slate-500">
+            <p className="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
               {subtitle}
             </p>
             <div className="mt-8">{children}</div>

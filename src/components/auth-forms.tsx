@@ -6,9 +6,10 @@ import { useState, type FormEvent } from "react";
 import { Button } from "@/components/ui";
 
 const fieldClass =
-  "h-11 w-full rounded-xl border border-slate-200 bg-white px-3.5 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-blue-400 focus:ring-4 focus:ring-blue-500/15";
+  "h-11 w-full rounded-xl border border-slate-200 bg-white px-3.5 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-blue-400 focus:ring-4 focus:ring-blue-500/15 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-blue-500";
 
-const labelClass = "mb-1.5 block text-sm font-medium text-slate-700";
+const labelClass =
+  "mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300";
 
 function PasswordInput({
   id,
@@ -38,7 +39,7 @@ function PasswordInput({
       <button
         type="button"
         onClick={() => setVisible((v) => !v)}
-        className="absolute inset-y-0 right-0 px-3 text-xs font-semibold text-blue-600 hover:text-blue-700"
+        className="absolute inset-y-0 right-0 px-3 text-xs font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-400"
       >
         {visible ? "Hide" : "Show"}
       </button>
@@ -99,7 +100,7 @@ export function SignInForm() {
       {justRegistered && !error && (
         <p
           role="status"
-          className="rounded-xl border border-emerald-200 bg-emerald-50 px-3.5 py-2.5 text-sm text-emerald-800"
+          className="rounded-xl border border-emerald-200 bg-emerald-50 px-3.5 py-2.5 text-sm text-emerald-800 dark:border-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-300"
         >
           Account created. Sign in to open your workspace.
         </p>
@@ -108,7 +109,7 @@ export function SignInForm() {
       {error && (
         <p
           role="alert"
-          className="rounded-xl border border-red-200 bg-red-50 px-3.5 py-2.5 text-sm text-red-700"
+          className="rounded-xl border border-red-200 bg-red-50 px-3.5 py-2.5 text-sm text-red-700 dark:border-red-900 dark:bg-red-950/40 dark:text-red-300"
         >
           {error}
         </p>
@@ -131,7 +132,7 @@ export function SignInForm() {
 
       <div>
         <div className="mb-1.5 flex items-center justify-between">
-          <label htmlFor="password" className="text-sm font-medium text-slate-700">
+          <label htmlFor="password" className="text-sm font-medium text-slate-700 dark:text-slate-300">
             Password
           </label>
           <button
@@ -151,7 +152,7 @@ export function SignInForm() {
         />
       </div>
 
-      <label className="flex items-center gap-2.5 text-sm text-slate-600">
+      <label className="flex items-center gap-2.5 text-sm text-slate-600 dark:text-slate-400">
         <input
           type="checkbox"
           name="remember"
@@ -165,11 +166,11 @@ export function SignInForm() {
         {pending ? "Signing in…" : "Sign in"}
       </Button>
 
-      <p className="pt-2 text-center text-sm text-slate-500">
+      <p className="pt-2 text-center text-sm text-slate-500 dark:text-slate-400">
         Don&apos;t have an account?{" "}
         <Link
           href="/register"
-          className="font-semibold text-blue-600 hover:text-blue-700"
+          className="font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-400"
         >
           Create one
         </Link>
@@ -231,7 +232,7 @@ export function RegisterForm() {
       {error && (
         <p
           role="alert"
-          className="rounded-xl border border-red-200 bg-red-50 px-3.5 py-2.5 text-sm text-red-700"
+          className="rounded-xl border border-red-200 bg-red-50 px-3.5 py-2.5 text-sm text-red-700 dark:border-red-900 dark:bg-red-950/40 dark:text-red-300"
         >
           {error}
         </p>
@@ -292,7 +293,7 @@ export function RegisterForm() {
         />
       </div>
 
-      <label className="flex items-start gap-2.5 text-sm leading-5 text-slate-600">
+      <label className="flex items-start gap-2.5 text-sm leading-5 text-slate-600 dark:text-slate-400">
         <input
           type="checkbox"
           name="terms"
@@ -301,8 +302,13 @@ export function RegisterForm() {
         />
         <span>
           I agree to the{" "}
-          <span className="font-medium text-slate-800">Terms</span> and{" "}
-          <span className="font-medium text-slate-800">Privacy Policy</span>
+          <span className="font-medium text-slate-800 dark:text-slate-200">
+            Terms
+          </span>{" "}
+          and{" "}
+          <span className="font-medium text-slate-800 dark:text-slate-200">
+            Privacy Policy
+          </span>
         </span>
       </label>
 
@@ -310,11 +316,11 @@ export function RegisterForm() {
         {pending ? "Creating account…" : "Create account"}
       </Button>
 
-      <p className="pt-2 text-center text-sm text-slate-500">
+      <p className="pt-2 text-center text-sm text-slate-500 dark:text-slate-400">
         Already have an account?{" "}
         <Link
           href="/login"
-          className="font-semibold text-blue-600 hover:text-blue-700"
+          className="font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-400"
         >
           Sign in
         </Link>

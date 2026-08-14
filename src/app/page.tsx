@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Logo } from "@/components/logo";
 import { LivePreviewTyping } from "@/components/live-preview-typing";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { getSession } from "@/lib/session";
 
 const features = [
@@ -113,9 +114,9 @@ export default async function Home() {
   const user = await getSession();
 
   return (
-    <div className="flex min-h-full flex-1 flex-col bg-slate-50 text-slate-900">
+    <div className="flex min-h-full flex-1 flex-col bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
       {/* Nav — brand blue/indigo palette */}
-      <header className="sticky top-0 z-50 border-b border-blue-100/80 bg-gradient-to-r from-white via-blue-50/40 to-indigo-50/50 backdrop-blur-xl">
+      <header className="sticky top-0 z-50 border-b border-blue-100/80 bg-gradient-to-r from-white via-blue-50/40 to-indigo-50/50 backdrop-blur-xl dark:border-slate-800 dark:from-slate-950 dark:via-slate-950 dark:to-slate-900">
         <div className="mx-auto grid h-16 max-w-6xl grid-cols-[1fr_auto] items-center gap-4 px-5 md:grid-cols-[1fr_auto_1fr] sm:px-6">
           {/* Brand */}
           <Link
@@ -126,7 +127,7 @@ export default async function Home() {
           </Link>
 
           {/* Center links (desktop) */}
-          <nav className="hidden items-center rounded-full border border-blue-100/90 bg-white/70 p-1 shadow-sm shadow-blue-500/5 md:flex">
+          <nav className="hidden items-center rounded-full border border-blue-100/90 bg-white/70 p-1 shadow-sm shadow-blue-500/5 dark:border-slate-700 dark:bg-slate-900/80 md:flex">
             {[
               { href: "#features", label: "Features" },
               { href: "#how-it-works", label: "How it works" },
@@ -135,7 +136,7 @@ export default async function Home() {
               <a
                 key={item.href}
                 href={item.href}
-                className="rounded-full px-4 py-1.5 text-sm font-medium text-slate-600 transition hover:bg-blue-50 hover:text-blue-700"
+                className="rounded-full px-4 py-1.5 text-sm font-medium text-slate-600 transition hover:bg-blue-50 hover:text-blue-700 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-blue-300"
               >
                 {item.label}
               </a>
@@ -144,6 +145,7 @@ export default async function Home() {
 
           {/* Actions */}
           <div className="flex items-center justify-end gap-2 justify-self-end">
+            <ThemeToggle />
             {user ? (
               <Link
                 href="/dashboard"
@@ -158,7 +160,7 @@ export default async function Home() {
               <>
                 <Link
                   href="/login"
-                  className="hidden rounded-full px-4 py-2 text-sm font-semibold text-blue-700 transition hover:bg-blue-50 sm:inline-flex"
+                  className="hidden rounded-full px-4 py-2 text-sm font-semibold text-blue-700 transition hover:bg-blue-50 dark:text-blue-300 dark:hover:bg-slate-800 sm:inline-flex"
                 >
                   Sign in
                 </Link>
@@ -199,7 +201,7 @@ export default async function Home() {
 
           <div className="relative mx-auto max-w-6xl px-5 pb-10 pt-14 sm:px-6 sm:pb-16 sm:pt-20">
             <div className="mx-auto max-w-3xl text-center">
-              <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-blue-200/80 bg-white/80 px-3.5 py-1.5 text-xs font-semibold text-blue-700 shadow-sm shadow-blue-500/5 backdrop-blur">
+              <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-blue-200/80 bg-white/80 px-3.5 py-1.5 text-xs font-semibold text-blue-700 shadow-sm shadow-blue-500/5 backdrop-blur dark:border-blue-800 dark:bg-slate-900/80 dark:text-blue-300">
                 <span className="relative flex h-2 w-2">
                   <span className="absolute inline-flex h-full w-full animate-pulse-ring rounded-full bg-blue-400" />
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-500" />
@@ -207,7 +209,7 @@ export default async function Home() {
                 Now live · Collaborative documents in the browser
               </div>
 
-              <h1 className="text-balance text-4xl font-semibold tracking-tight text-slate-900 sm:text-5xl md:text-6xl md:leading-[1.05]">
+              <h1 className="text-balance text-4xl font-semibold tracking-tight text-slate-900 sm:text-5xl md:text-6xl md:leading-[1.05] dark:text-white">
                 Your team&apos;s docs,{" "}
                 <span className="relative whitespace-nowrap">
                   <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 bg-clip-text text-transparent">
@@ -217,7 +219,7 @@ export default async function Home() {
                 </span>
               </h1>
 
-              <p className="mx-auto mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-slate-600 sm:text-xl">
+              <p className="mx-auto mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-slate-600 sm:text-xl dark:text-slate-300">
                 CollabDocs is a Google Docs–style workspace where ideas stay in
                 one place. Draft, share, and co-edit with live carets — no more
                 &ldquo;final_v7_really_final.docx&rdquo;.
@@ -235,7 +237,7 @@ export default async function Home() {
                 </Link>
                 <a
                   href="#preview"
-                  className="inline-flex h-12 w-full items-center justify-center rounded-full border border-slate-200 bg-white/90 px-8 text-sm font-semibold text-slate-800 shadow-sm transition hover:border-slate-300 hover:bg-white sm:w-auto"
+                  className="inline-flex h-12 w-full items-center justify-center rounded-full border border-slate-200 bg-white/90 px-8 text-sm font-semibold text-slate-800 shadow-sm transition hover:border-slate-300 hover:bg-white dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:border-slate-600 dark:hover:bg-slate-800 sm:w-auto"
                 >
                   View live preview
                 </a>
@@ -253,15 +255,15 @@ export default async function Home() {
             >
               <div className="absolute -inset-4 rounded-[2rem] bg-gradient-to-b from-blue-500/10 via-indigo-500/5 to-transparent blur-2xl" />
 
-              <div className="animate-float relative overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-2xl shadow-slate-900/10 ring-1 ring-slate-900/5">
+              <div className="animate-float relative overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-2xl shadow-slate-900/10 ring-1 ring-slate-900/5 dark:border-slate-700 dark:bg-slate-900 dark:shadow-black/40 dark:ring-white/5">
                 {/* Browser chrome */}
-                <div className="flex items-center gap-3 border-b border-slate-100 bg-slate-50/90 px-4 py-3">
+                <div className="flex items-center gap-3 border-b border-slate-100 bg-slate-50/90 px-4 py-3 dark:border-slate-800 dark:bg-slate-950">
                   <div className="flex gap-1.5">
                     <span className="h-3 w-3 rounded-full bg-[#FF5F57]" />
                     <span className="h-3 w-3 rounded-full bg-[#FEBC2E]" />
                     <span className="h-3 w-3 rounded-full bg-[#28C840]" />
                   </div>
-                  <div className="mx-auto flex w-full max-w-lg items-center gap-2 rounded-lg border border-slate-200/80 bg-white px-3 py-1.5 shadow-sm">
+                  <div className="mx-auto flex w-full max-w-lg items-center gap-2 rounded-lg border border-slate-200/80 bg-white px-3 py-1.5 shadow-sm dark:border-slate-700 dark:bg-slate-900">
                     <span className="h-2 w-2 shrink-0 rounded-full bg-emerald-400" />
                     <span className="truncate text-xs text-slate-500">
                       app.collabdocs.io / d / product-roadmap
@@ -270,11 +272,11 @@ export default async function Home() {
                 </div>
 
                 {/* App chrome */}
-                <div className="flex items-center justify-between gap-3 border-b border-slate-100 px-4 py-2.5 sm:px-5">
+                <div className="flex items-center justify-between gap-3 border-b border-slate-100 px-4 py-2.5 sm:px-5 dark:border-slate-800">
                   <div className="flex min-w-0 items-center gap-3">
                     <Logo size="sm" showWordmark={false} />
                     <div className="min-w-0">
-                      <p className="truncate text-sm font-semibold text-slate-800">
+                      <p className="truncate text-sm font-semibold text-slate-800 dark:text-slate-100">
                         Q3 Product Roadmap
                       </p>
                       <p className="text-[11px] text-slate-400">
@@ -291,28 +293,28 @@ export default async function Home() {
                       ].map((u) => (
                         <span
                           key={u.i}
-                          className={`flex h-7 w-7 items-center justify-center rounded-full ${u.c} text-[10px] font-bold text-white ring-2 ring-white`}
+                          className={`flex h-7 w-7 items-center justify-center rounded-full ${u.c} text-[10px] font-bold text-white ring-2 ring-white dark:ring-slate-900`}
                         >
                           {u.i}
                         </span>
                       ))}
                     </div>
-                    <span className="hidden rounded-full bg-blue-50 px-2.5 py-1 text-[11px] font-semibold text-blue-700 sm:inline">
+                    <span className="hidden rounded-full bg-blue-50 px-2.5 py-1 text-[11px] font-semibold text-blue-700 dark:bg-blue-950 dark:text-blue-300 sm:inline">
                       Share
                     </span>
                   </div>
                 </div>
 
                 {/* Formatting bar */}
-                <div className="flex flex-wrap items-center gap-1 border-b border-slate-100 bg-white px-3 py-2 text-xs text-slate-500 sm:px-5">
+                <div className="flex flex-wrap items-center gap-1 border-b border-slate-100 bg-white px-3 py-2 text-xs text-slate-500 dark:border-slate-800 dark:bg-slate-900 sm:px-5">
                   {["Normal text", "B", "I", "U", "• List", "1. List", "Link"].map(
                     (t, idx) => (
                       <span
                         key={t}
                         className={`rounded-md px-2 py-1 font-medium ${
                           idx === 1
-                            ? "bg-slate-100 text-slate-800"
-                            : "hover:bg-slate-50"
+                            ? "bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-100"
+                            : "hover:bg-slate-50 dark:hover:bg-slate-800"
                         }`}
                       >
                         {t}
@@ -323,12 +325,12 @@ export default async function Home() {
 
                 <div className="grid lg:grid-cols-[1fr_220px]">
                   {/* Page — live typing simulation */}
-                  <div className="relative min-h-[340px] bg-[linear-gradient(180deg,#fff_0%,#fafbfc_100%)] px-8 py-10 sm:px-16 sm:py-12">
+                  <div className="relative min-h-[340px] bg-[linear-gradient(180deg,#fff_0%,#fafbfc_100%)] px-8 py-10 sm:px-16 sm:py-12 dark:bg-[linear-gradient(180deg,#0f172a_0%,#020617_100%)]">
                     <LivePreviewTyping />
                   </div>
 
                   {/* Presence rail */}
-                  <aside className="hidden border-l border-slate-100 bg-slate-50/80 p-5 lg:block">
+                  <aside className="hidden border-l border-slate-100 bg-slate-50/80 p-5 dark:border-slate-800 dark:bg-slate-950/80 lg:block">
                     <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
                       In this doc
                     </p>
@@ -355,7 +357,7 @@ export default async function Home() {
                       ].map((p) => (
                         <li
                           key={p.name}
-                          className="flex items-center gap-3 rounded-xl bg-white p-2.5 shadow-sm ring-1 ring-slate-100"
+                          className="flex items-center gap-3 rounded-xl bg-white p-2.5 shadow-sm ring-1 ring-slate-100 dark:bg-slate-900 dark:ring-slate-800"
                         >
                           <span
                             className={`flex h-9 w-9 items-center justify-center rounded-full ${p.color} text-xs font-bold text-white`}
@@ -367,7 +369,7 @@ export default async function Home() {
                               .slice(0, 2)}
                           </span>
                           <div className="min-w-0">
-                            <p className="truncate text-sm font-semibold text-slate-800">
+                            <p className="truncate text-sm font-semibold text-slate-800 dark:text-slate-100">
                               {p.name}
                             </p>
                             <p className="truncate text-xs text-slate-500">
@@ -381,7 +383,7 @@ export default async function Home() {
                       ))}
                     </ul>
 
-                    <div className="mt-6 rounded-xl border border-dashed border-slate-200 bg-white/60 p-3 text-center">
+                    <div className="mt-6 rounded-xl border border-dashed border-slate-200 bg-white/60 p-3 text-center dark:border-slate-700 dark:bg-slate-900/60">
                       <p className="text-xs font-medium text-slate-500">
                         + Invite teammate
                       </p>
@@ -396,9 +398,9 @@ export default async function Home() {
               {stats.map((s) => (
                 <div
                   key={s.label}
-                  className="rounded-2xl border border-slate-200/80 bg-white/80 px-4 py-4 text-center shadow-sm backdrop-blur"
+                  className="rounded-2xl border border-slate-200/80 bg-white/80 px-4 py-4 text-center shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-900/80"
                 >
-                  <p className="text-sm font-bold text-slate-900 sm:text-base">
+                  <p className="text-sm font-bold text-slate-900 sm:text-base dark:text-white">
                     {s.value}
                   </p>
                   <p className="mt-1 text-[11px] text-slate-500 sm:text-xs">
@@ -413,17 +415,17 @@ export default async function Home() {
         {/* Features */}
         <section
           id="features"
-          className="scroll-mt-24 border-t border-slate-200/80 bg-white py-20 sm:py-28"
+          className="scroll-mt-24 border-t border-slate-200/80 bg-white py-20 sm:py-28 dark:border-slate-800 dark:bg-slate-950"
         >
           <div className="mx-auto max-w-6xl px-5 sm:px-6">
             <div className="mx-auto max-w-2xl text-center">
               <p className="text-sm font-semibold uppercase tracking-wider text-blue-600">
                 Features
               </p>
-              <h2 className="mt-3 text-balance text-3xl font-semibold tracking-tight sm:text-4xl">
+              <h2 className="mt-3 text-balance text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl dark:text-white">
                 Built for how teams actually write
               </h2>
-              <p className="mt-4 text-lg text-slate-600">
+              <p className="mt-4 text-lg text-slate-600 dark:text-slate-400">
                 Less tool-switching. More shipping the words that matter.
               </p>
             </div>
@@ -432,7 +434,7 @@ export default async function Home() {
               {features.map((feature) => (
                 <article
                   key={feature.title}
-                  className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-slate-50/40 p-6 transition duration-300 hover:-translate-y-0.5 hover:border-slate-300 hover:bg-white hover:shadow-xl hover:shadow-slate-900/5"
+                  className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-slate-50/40 p-6 transition duration-300 hover:-translate-y-0.5 hover:border-slate-300 hover:bg-white hover:shadow-xl hover:shadow-slate-900/5 dark:border-slate-800 dark:bg-slate-900/50 dark:hover:border-slate-700 dark:hover:bg-slate-900"
                 >
                   <div
                     className={`flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br ${feature.accent} text-white shadow-md`}
@@ -448,10 +450,10 @@ export default async function Home() {
                       {feature.icon}
                     </svg>
                   </div>
-                  <h3 className="mt-5 text-lg font-semibold text-slate-900">
+                  <h3 className="mt-5 text-lg font-semibold text-slate-900 dark:text-white">
                     {feature.title}
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                  <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
                     {feature.description}
                   </p>
                 </article>
@@ -463,14 +465,14 @@ export default async function Home() {
         {/* How it works */}
         <section
           id="how-it-works"
-          className="scroll-mt-24 border-t border-slate-200/80 bg-slate-50 py-20 sm:py-28"
+          className="scroll-mt-24 border-t border-slate-200/80 bg-slate-50 py-20 sm:py-28 dark:border-slate-800 dark:bg-slate-900/40"
         >
           <div className="mx-auto max-w-6xl px-5 sm:px-6">
             <div className="mx-auto max-w-2xl text-center">
               <p className="text-sm font-semibold uppercase tracking-wider text-blue-600">
                 How it works
               </p>
-              <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
+              <h2 className="mt-3 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl dark:text-white">
                 From zero to co-writing in minutes
               </h2>
             </div>
@@ -479,15 +481,15 @@ export default async function Home() {
               {steps.map((item) => (
                 <div
                   key={item.step}
-                  className="relative rounded-2xl border border-slate-200 bg-white p-7 shadow-sm"
+                  className="relative rounded-2xl border border-slate-200 bg-white p-7 shadow-sm dark:border-slate-800 dark:bg-slate-900"
                 >
                   <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 text-sm font-bold text-white shadow-md shadow-blue-600/25">
                     {item.step}
                   </div>
-                  <h3 className="mt-5 text-xl font-semibold text-slate-900">
+                  <h3 className="mt-5 text-xl font-semibold text-slate-900 dark:text-white">
                     {item.title}
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                  <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
                     {item.body}
                   </p>
                 </div>
@@ -497,10 +499,10 @@ export default async function Home() {
         </section>
 
         {/* Quote / vision band */}
-        <section className="border-t border-slate-200/80 bg-white py-16">
+        <section className="border-t border-slate-200/80 bg-white py-16 dark:border-slate-800 dark:bg-slate-950">
           <div className="mx-auto max-w-3xl px-5 text-center sm:px-6">
             <Logo size="lg" className="justify-center" />
-            <blockquote className="mt-8 text-balance text-2xl font-medium tracking-tight text-slate-800 sm:text-3xl">
+            <blockquote className="mt-8 text-balance text-2xl font-medium tracking-tight text-slate-800 sm:text-3xl dark:text-slate-100">
               &ldquo;One shared canvas. Everyone online. The draft ships
               faster.&rdquo;
             </blockquote>

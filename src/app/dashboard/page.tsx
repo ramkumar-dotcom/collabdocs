@@ -17,14 +17,14 @@ export default async function DashboardPage() {
   const documents = await listUserDocuments(user.id);
 
   return (
-    <div className="flex min-h-full flex-1 flex-col bg-slate-50">
+    <div className="flex min-h-full flex-1 flex-col bg-slate-50 dark:bg-slate-950">
       <AppHeader user={user} />
 
       <main className="mx-auto w-full max-w-6xl flex-1 px-5 py-10 sm:px-6">
-        <h1 className="text-3xl font-semibold tracking-tight text-slate-900">
+        <h1 className="text-3xl font-semibold tracking-tight text-slate-900 dark:text-white">
           Welcome, {user.name.split(" ")[0]}
         </h1>
-        <p className="mt-2 text-slate-600">
+        <p className="mt-2 text-slate-600 dark:text-slate-400">
           Start a new notepad or pick up where you left off.
         </p>
 
@@ -43,7 +43,7 @@ export default async function DashboardPage() {
           </h2>
 
           {documents.length === 0 ? (
-            <p className="mt-6 rounded-2xl border border-slate-200 bg-white px-6 py-10 text-center text-sm text-slate-500">
+            <p className="mt-6 rounded-2xl border border-slate-200 bg-white px-6 py-10 text-center text-sm text-slate-500 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400">
               No notepads yet. Create one above to get started.
             </p>
           ) : (
@@ -52,17 +52,17 @@ export default async function DashboardPage() {
                 <Link
                   key={doc.id}
                   href={`/docs/${doc.id}`}
-                  className="group flex min-h-[220px] flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-md"
+                  className="group flex min-h-[220px] flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-md dark:border-slate-800 dark:bg-slate-900 dark:hover:border-blue-700"
                 >
-                  <div className="flex h-28 items-start overflow-hidden rounded-xl bg-gradient-to-br from-slate-50 to-blue-50 p-3">
+                  <div className="flex h-28 items-start overflow-hidden rounded-xl bg-gradient-to-br from-slate-50 to-blue-50 p-3 dark:from-slate-800 dark:to-slate-800">
                     <p className="line-clamp-5 text-[11px] leading-4 text-slate-400">
                       {doc.preview || "Empty notepad"}
                     </p>
                   </div>
-                  <h3 className="mt-4 truncate text-base font-semibold text-slate-900 group-hover:text-blue-700">
+                  <h3 className="mt-4 truncate text-base font-semibold text-slate-900 group-hover:text-blue-700 dark:text-slate-100 dark:group-hover:text-blue-300">
                     {doc.title}
                   </h3>
-                  <p className="mt-1 text-xs text-slate-500">
+                  <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
                     Opened {formatRelativeTime(doc.updatedAt)}
                   </p>
                 </Link>

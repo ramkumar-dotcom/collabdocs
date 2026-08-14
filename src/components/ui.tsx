@@ -30,7 +30,7 @@ export function Button({
     primary:
       "inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-5 text-sm font-semibold text-white shadow-md shadow-blue-600/25 transition hover:from-blue-500 hover:to-indigo-500 disabled:opacity-70",
     ghost:
-      "inline-flex items-center justify-center gap-2 rounded-full px-3 py-1.5 text-sm font-medium text-slate-600 transition hover:bg-blue-50 hover:text-blue-700 disabled:opacity-60",
+      "inline-flex items-center justify-center gap-2 rounded-full px-3 py-1.5 text-sm font-medium text-slate-600 transition hover:bg-blue-50 hover:text-blue-700 disabled:opacity-60 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-blue-300",
     menu: "block w-full px-4 py-2.5 text-left text-sm text-slate-700 transition hover:bg-red-50 hover:text-red-700 disabled:opacity-60",
   };
 

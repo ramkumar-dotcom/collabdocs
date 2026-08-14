@@ -86,7 +86,9 @@ export function Logo({
           className={cn(
             "font-semibold tracking-tight",
             s.word,
-            variant === "dark" ? "text-white" : "text-slate-900"
+            variant === "dark"
+              ? "text-white"
+              : "text-slate-900 dark:text-white"
           )}
         >
           Collab
@@ -95,7 +97,7 @@ export function Logo({
               "bg-clip-text text-transparent",
               variant === "dark"
                 ? "bg-gradient-to-r from-sky-300 to-indigo-300"
-                : "bg-gradient-to-r from-blue-600 to-indigo-600"
+                : "bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-sky-300 dark:to-indigo-300"
             )}
           >
             Docs
