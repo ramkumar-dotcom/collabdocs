@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, type FormEvent } from "react";
+import { Button } from "@/components/ui";
 
 const fieldClass =
   "h-11 w-full rounded-xl border border-slate-200 bg-white px-3.5 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-blue-400 focus:ring-4 focus:ring-blue-500/15";
@@ -160,13 +161,9 @@ export function SignInForm() {
         Remember me for 7 days
       </label>
 
-      <button
-        type="submit"
-        disabled={pending}
-        className="mt-2 inline-flex h-11 w-full items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-sm font-semibold text-white shadow-md shadow-blue-600/25 transition hover:from-blue-500 hover:to-indigo-500 disabled:cursor-not-allowed disabled:opacity-70"
-      >
+      <Button type="submit" loading={pending} className="mt-2 w-full">
         {pending ? "Signing in…" : "Sign in"}
-      </button>
+      </Button>
 
       <p className="pt-2 text-center text-sm text-slate-500">
         Don&apos;t have an account?{" "}
@@ -309,13 +306,9 @@ export function RegisterForm() {
         </span>
       </label>
 
-      <button
-        type="submit"
-        disabled={pending}
-        className="mt-2 inline-flex h-11 w-full items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-sm font-semibold text-white shadow-md shadow-blue-600/25 transition hover:from-blue-500 hover:to-indigo-500 disabled:cursor-not-allowed disabled:opacity-70"
-      >
+      <Button type="submit" loading={pending} className="mt-2 w-full">
         {pending ? "Creating account…" : "Create account"}
-      </button>
+      </Button>
 
       <p className="pt-2 text-center text-sm text-slate-500">
         Already have an account?{" "}

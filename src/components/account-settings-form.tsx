@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
+import { Button } from "@/components/ui";
 
 const fieldClass =
   "h-11 w-full rounded-xl border border-slate-200 bg-white px-3.5 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-blue-400 focus:ring-4 focus:ring-blue-500/15";
@@ -117,13 +118,9 @@ export function AccountSettingsForm({ name, email }: Props) {
         </div>
         {nameError && <p className="text-sm text-red-600">{nameError}</p>}
         {nameMsg && <p className="text-sm text-emerald-600">{nameMsg}</p>}
-        <button
-          type="submit"
-          disabled={namePending}
-          className="inline-flex h-10 items-center rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-5 text-sm font-semibold text-white shadow-sm disabled:opacity-70"
-        >
+        <Button type="submit" loading={namePending} className="h-10 rounded-full">
           {namePending ? "Saving…" : "Save name"}
-        </button>
+        </Button>
       </form>
 
       <form
@@ -187,13 +184,13 @@ export function AccountSettingsForm({ name, email }: Props) {
         {passwordMsg && (
           <p className="text-sm text-emerald-600">{passwordMsg}</p>
         )}
-        <button
+        <Button
           type="submit"
-          disabled={passwordPending}
-          className="inline-flex h-10 items-center rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-5 text-sm font-semibold text-white shadow-sm disabled:opacity-70"
+          loading={passwordPending}
+          className="h-10 rounded-full"
         >
           {passwordPending ? "Updating…" : "Update password"}
-        </button>
+        </Button>
       </form>
     </div>
   );

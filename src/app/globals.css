@@ -77,3 +77,41 @@ html {
 .animate-pulse-ring {
   animation: pulse-ring 2s ease-out infinite;
 }
+
+button,
+a,
+[role="button"],
+[role="menuitem"] {
+  cursor: pointer;
+}
+
+button:disabled,
+[aria-disabled="true"] {
+  cursor: not-allowed;
+}
+
+@keyframes shimmer-slide {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.shimmer {
+  position: relative;
+  overflow: hidden;
+  background-color: #e8eef7;
+}
+
+.shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.75),
+    transparent
+  );
+  animation: shimmer-slide 1.35s ease-in-out infinite;
+}

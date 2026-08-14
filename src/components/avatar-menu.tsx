@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { Spinner } from "@/components/ui";
 
 type AvatarMenuProps = {
   name: string;
@@ -60,7 +61,7 @@ export function AvatarMenu({ name, email }: AvatarMenuProps) {
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="menu"
         aria-expanded={open}
-        className="flex items-center gap-2 rounded-full p-0.5 transition hover:bg-blue-50"
+        className="flex cursor-pointer items-center gap-2 rounded-full p-0.5 transition hover:bg-blue-50"
       >
         <span className="hidden text-right sm:block">
           <span className="block text-sm font-semibold text-slate-800">
@@ -86,7 +87,7 @@ export function AvatarMenu({ name, email }: AvatarMenuProps) {
             href="/settings"
             role="menuitem"
             onClick={() => setOpen(false)}
-            className="block px-4 py-2.5 text-sm text-slate-700 transition hover:bg-blue-50 hover:text-blue-700"
+            className="block cursor-pointer px-4 py-2.5 text-sm text-slate-700 transition hover:bg-blue-50 hover:text-blue-700"
           >
             Account settings
           </Link>
@@ -95,8 +96,9 @@ export function AvatarMenu({ name, email }: AvatarMenuProps) {
             role="menuitem"
             onClick={signOut}
             disabled={signingOut}
-            className="block w-full px-4 py-2.5 text-left text-sm text-slate-700 transition hover:bg-red-50 hover:text-red-700 disabled:opacity-60"
+            className="flex w-full cursor-pointer items-center gap-2 px-4 py-2.5 text-left text-sm text-slate-700 transition hover:bg-red-50 hover:text-red-700 disabled:cursor-wait disabled:opacity-60"
           >
+            {signingOut && <Spinner className="h-3.5 w-3.5" />}
             {signingOut ? "Signing out…" : "Sign out"}
           </button>
         </div>

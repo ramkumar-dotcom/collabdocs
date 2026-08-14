@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { Spinner } from "@/components/ui";
 
 type Props = {
   id: string;
@@ -40,8 +41,13 @@ export function NotepadEditor({ id, initialTitle, initialContent }: Props) {
   return (
     <div className="rounded-2xl border border-slate-200 bg-white px-6 py-8 shadow-sm sm:px-12 sm:py-10">
       <div className="mb-4 flex items-center justify-between text-xs text-slate-400">
-        <span>
-          {status === "saving" && "Saving…"}
+        <span className="inline-flex items-center gap-1.5">
+          {status === "saving" && (
+            <>
+              <Spinner className="h-3 w-3 text-blue-500" />
+              Saving…
+            </>
+          )}
           {status === "saved" && "Saved"}
           {status === "error" && "Couldn’t save — try again"}
         </span>
