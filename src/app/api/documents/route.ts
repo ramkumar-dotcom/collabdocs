@@ -29,7 +29,7 @@ export async function POST() {
     title: "Untitled notepad",
     content: "",
     ownerId: user.id,
-    collaborators: [{ userId: user.id, role: "owner" }],
+    collaborators: [],
   });
 
   return NextResponse.json({ document: serializeDoc(doc) }, { status: 201 });

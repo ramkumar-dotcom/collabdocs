@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import connectDB from "@/lib/db";
 import User from "@/models/User";
 import { getSession } from "@/lib/session";
+import { escapeRegex } from "@/lib/mongo";
 
 export const dynamic = "force-dynamic";
 
@@ -19,11 +20,12 @@ export async function GET(request: Request) {
 
   await connectDB();
 
+  const safe = escapeRegex(q);
   const users = await User.find({
     _id: { $ne: session.id },
     $or: [
-      { email: { $regex: q, $options: "i" } },
-      { name: { $regex: q, $options: "i" } },
+      { email: { $regex: safe, $options: "i" } },
+      { name: { $regex: safe, $options: "i" } },
     ],
   })
     .select("name email")

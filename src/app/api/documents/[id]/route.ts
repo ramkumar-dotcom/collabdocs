@@ -6,6 +6,7 @@ import Version from "@/models/Version";
 import { getSession } from "@/lib/session";
 import { serializeDoc, userDocFilter } from "@/lib/documents";
 import { canEditRole, getAccessRole } from "@/lib/access";
+import { isEmptyHtml, isObjectId } from "@/lib/mongo";
 
 export const dynamic = "force-dynamic";
 
@@ -23,6 +24,9 @@ export async function GET(_request: Request, context: RouteContext) {
   }
 
   const { id } = await context.params;
+  if (!isObjectId(id)) {
+    return NextResponse.json({ error: "Notepad not found" }, { status: 404 });
+  }
   await connectDB();
 
   const doc = await DocumentModel.findOne({
@@ -49,6 +53,9 @@ export async function PATCH(request: Request, context: RouteContext) {
   }
 
   const { id } = await context.params;
+  if (!isObjectId(id)) {
+    return NextResponse.json({ error: "Notepad not found" }, { status: 404 });
+  }
   const parsed = updateSchema.safeParse(await request.json());
   if (!parsed.success) {
     return NextResponse.json({ error: "Invalid update" }, { status: 400 });
@@ -70,6 +77,15 @@ export async function PATCH(request: Request, context: RouteContext) {
       { error: "You have view-only access" },
       { status: 403 }
     );
+  }
+
+  if (
+    parsed.data.content !== undefined &&
+    isEmptyHtml(parsed.data.content) &&
+    !isEmptyHtml(existing.content ?? "")
+  ) {
+    // Never let a pre-sync empty editor wipe a saved notepad
+    delete parsed.data.content;
   }
 
   if (parsed.data.content !== undefined) {

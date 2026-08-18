@@ -26,7 +26,7 @@ import { CommentMark } from "@/components/comment-mark";
 import { CommentsPanel, HistoryPanel } from "@/components/collab-panels";
 import { Spinner } from "@/components/ui";
 
-type LiveUser = { name: string; color: string };
+type LiveUser = { clientId: number; name: string; color: string };
 
 type Props = {
   id: string;
@@ -148,8 +148,14 @@ export function NotepadEditor({
       const users: LiveUser[] = [];
       provider.awareness.getStates().forEach((state, clientId) => {
         if (clientId === ydoc.clientID) return;
-        const user = state.user as LiveUser | undefined;
-        if (user?.name) users.push({ name: user.name, color: user.color });
+        const user = state.user as { name?: string; color?: string } | undefined;
+        if (user?.name) {
+          users.push({
+            clientId,
+            name: user.name,
+            color: user.color || "#2563eb",
+          });
+        }
       });
       setPeers(users);
     };
@@ -183,14 +189,17 @@ export function NotepadEditor({
   useEffect(() => {
     if (!editor) return;
 
-    const save = () => {
+    const save = (includeContent: boolean) => {
+      const html = editor.getHTML();
+      const empty =
+        html.replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").trim() === "";
       setStatus("saving");
       void fetch(`/api/documents/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           title: titleRef.current.trim() || "Untitled notepad",
-          content: editor.getHTML(),
+          ...(includeContent && !empty ? { content: html } : {}),
         }),
       })
         .then((res) => setStatus(res.ok ? "live" : "error"))
@@ -201,7 +210,7 @@ export function NotepadEditor({
       if (!canEdit) return;
       setStatus("saving");
       if (saveTimer.current) window.clearTimeout(saveTimer.current);
-      saveTimer.current = window.setTimeout(save, 1200);
+      saveTimer.current = window.setTimeout(() => save(true), 1200);
     };
 
     editor.on("update", onUpdate);
@@ -211,9 +220,14 @@ export function NotepadEditor({
     };
   }, [editor, id, canEdit]);
 
+  const skipFirstTitleSave = useRef(true);
   useEffect(() => {
+    if (skipFirstTitleSave.current) {
+      skipFirstTitleSave.current = false;
+      return;
+    }
+    if (!canEdit) return;
     const timer = window.setTimeout(async () => {
-      if (!editor || !canEdit) return;
       setStatus("saving");
       try {
         const res = await fetch(`/api/documents/${id}`, {
@@ -221,7 +235,6 @@ export function NotepadEditor({
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             title: title.trim() || "Untitled notepad",
-            content: editor.getHTML(),
           }),
         });
         setStatus(res.ok ? "live" : "error");
@@ -230,7 +243,7 @@ export function NotepadEditor({
       }
     }, 800);
     return () => window.clearTimeout(timer);
-  }, [title, editor, id, canEdit]);
+  }, [title, id, canEdit]);
 
   function followPeer(name: string) {
     const labels = document.querySelectorAll(".collaboration-carets__label");
@@ -264,7 +277,7 @@ export function NotepadEditor({
             <div className="hidden items-center gap-2 sm:flex">
               {peers.slice(0, 4).map((peer) => (
                 <button
-                  key={peer.name}
+                  key={peer.clientId}
                   type="button"
                   title={`Follow ${peer.name}`}
                   onClick={() => followPeer(peer.name)}

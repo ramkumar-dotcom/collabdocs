@@ -5,6 +5,7 @@ import DocumentModel from "@/models/Document";
 import User from "@/models/User";
 import { getSession } from "@/lib/session";
 import { userDocFilter } from "@/lib/documents";
+import { isObjectId } from "@/lib/mongo";
 
 export const dynamic = "force-dynamic";
 
@@ -17,6 +18,9 @@ export async function GET(_request: Request, context: RouteContext) {
   }
 
   const { id } = await context.params;
+  if (!isObjectId(id)) {
+    return NextResponse.json({ error: "Notepad not found" }, { status: 404 });
+  }
   await connectDB();
   const doc = await DocumentModel.findOne({
     _id: id,
@@ -41,15 +45,17 @@ export async function GET(_request: Request, context: RouteContext) {
         email: owner?.email ?? "",
         role: "owner" as const,
       },
-      ...doc.collaborators.map((c) => {
-        const u = map.get(c.userId.toString());
-        return {
-          id: c.userId.toString(),
-          name: u?.name ?? "Collaborator",
-          email: u?.email ?? "",
-          role: c.role,
-        };
-      }),
+      ...doc.collaborators
+        .filter((c) => c.userId.toString() !== doc.ownerId.toString())
+        .map((c) => {
+          const u = map.get(c.userId.toString());
+          return {
+            id: c.userId.toString(),
+            name: u?.name ?? "Collaborator",
+            email: u?.email ?? "",
+            role: c.role === "viewer" ? "viewer" : "editor",
+          };
+        }),
     ],
   });
 }
@@ -70,6 +76,9 @@ export async function DELETE(request: Request, context: RouteContext) {
   }
 
   const { id } = await context.params;
+  if (!isObjectId(id)) {
+    return NextResponse.json({ error: "Notepad not found" }, { status: 404 });
+  }
   await connectDB();
   const doc = await DocumentModel.findById(id);
   if (!doc) {
@@ -85,6 +94,9 @@ export async function DELETE(request: Request, context: RouteContext) {
     return NextResponse.json({ error: "Cannot remove the owner" }, { status: 400 });
   }
 
+  if (!isObjectId(parsed.data.userId)) {
+    return NextResponse.json({ error: "Invalid user" }, { status: 400 });
+  }
   doc.collaborators.pull({ userId: parsed.data.userId });
   await doc.save();
   return NextResponse.json({ ok: true });

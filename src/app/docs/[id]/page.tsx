@@ -8,6 +8,7 @@ import DocumentModel from "@/models/Document";
 import { userDocFilter } from "@/lib/documents";
 import { canEditRole, getAccessRole } from "@/lib/access";
 import { getSession } from "@/lib/session";
+import { isObjectId } from "@/lib/mongo";
 
 type PageProps = {
   params: Promise<{ id: string }>;
@@ -20,6 +21,9 @@ export default async function DocPage({ params }: PageProps) {
   }
 
   const { id } = await params;
+  if (!isObjectId(id)) {
+    notFound();
+  }
   await connectDB();
 
   const doc = await DocumentModel.findOne({
