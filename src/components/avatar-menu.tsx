@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Spinner } from "@/components/ui";
 import { ThemePicker } from "@/components/theme-toggle";
+import { AnchoredPopover } from "@/components/anchored-popover";
 
 type AvatarMenuProps = {
   name: string;
@@ -25,12 +26,18 @@ export function AvatarMenu({ name, email }: AvatarMenuProps) {
   const [open, setOpen] = useState(false);
   const [signingOut, setSigningOut] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function onPointer(e: MouseEvent) {
-      if (!rootRef.current?.contains(e.target as Node)) {
-        setOpen(false);
+      const target = e.target as Node;
+      if (
+        rootRef.current?.contains(target) ||
+        panelRef.current?.contains(target)
+      ) {
+        return;
       }
+      setOpen(false);
     }
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") setOpen(false);
@@ -77,11 +84,14 @@ export function AvatarMenu({ name, email }: AvatarMenuProps) {
         </span>
       </button>
 
-      {open && (
-        <div
-          role="menu"
-          className="absolute right-0 z-50 mt-2 w-64 overflow-hidden rounded-2xl border border-slate-200 bg-white py-1 shadow-xl shadow-slate-900/10 dark:border-slate-700 dark:bg-slate-900 dark:shadow-black/40"
-        >
+      <AnchoredPopover
+        open={open}
+        anchorRef={rootRef}
+        panelRef={panelRef}
+        width={256}
+        className="overflow-hidden rounded-2xl border border-slate-200 bg-white py-1 shadow-xl shadow-slate-900/10 dark:border-slate-700 dark:bg-slate-900 dark:shadow-black/40"
+      >
+        <div role="menu">
           <div className="border-b border-slate-100 px-4 py-3 dark:border-slate-800">
             <p className="truncate text-sm font-semibold text-slate-900 dark:text-slate-100">
               {name}
@@ -110,7 +120,7 @@ export function AvatarMenu({ name, email }: AvatarMenuProps) {
             {signingOut ? "Signing out…" : "Sign out"}
           </button>
         </div>
-      )}
+      </AnchoredPopover>
     </div>
   );
 }

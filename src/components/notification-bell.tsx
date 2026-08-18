@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { formatRelativeTime } from "@/lib/format";
 import { Spinner } from "@/components/ui";
+import { AnchoredPopover } from "@/components/anchored-popover";
 
 type NotificationItem = {
   id: string;
@@ -19,6 +20,7 @@ type NotificationItem = {
 export function NotificationBell() {
   const router = useRouter();
   const rootRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState<NotificationItem[]>([]);
   const [pendingCount, setPendingCount] = useState(0);
@@ -45,7 +47,14 @@ export function NotificationBell() {
 
   useEffect(() => {
     function onPointer(e: MouseEvent) {
-      if (!rootRef.current?.contains(e.target as Node)) setOpen(false);
+      const target = e.target as Node;
+      if (
+        rootRef.current?.contains(target) ||
+        panelRef.current?.contains(target)
+      ) {
+        return;
+      }
+      setOpen(false);
     }
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") setOpen(false);
@@ -119,8 +128,13 @@ export function NotificationBell() {
         )}
       </button>
 
-      {open && (
-        <div className="absolute right-0 z-50 mt-2 w-[22rem] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-900/10 dark:border-slate-700 dark:bg-slate-900">
+      <AnchoredPopover
+        open={open}
+        anchorRef={rootRef}
+        panelRef={panelRef}
+        width={352}
+        className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-900/10 dark:border-slate-700 dark:bg-slate-900"
+      >
           <div className="border-b border-slate-100 px-4 py-3 dark:border-slate-800">
             <p className="text-sm font-semibold text-slate-900 dark:text-white">
               Notifications
@@ -190,8 +204,7 @@ export function NotificationBell() {
               </div>
             ))}
           </div>
-        </div>
-      )}
+      </AnchoredPopover>
     </div>
   );
 }

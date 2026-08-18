@@ -2,11 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Spinner } from "@/components/ui";
+import { AnchoredPopover } from "@/components/anchored-popover";
 
 type SearchUser = { id: string; name: string; email: string };
 
 export function ShareInvite({ documentId }: { documentId: string }) {
   const rootRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchUser[]>([]);
@@ -17,7 +19,14 @@ export function ShareInvite({ documentId }: { documentId: string }) {
 
   useEffect(() => {
     function onPointer(e: MouseEvent) {
-      if (!rootRef.current?.contains(e.target as Node)) setOpen(false);
+      const target = e.target as Node;
+      if (
+        rootRef.current?.contains(target) ||
+        panelRef.current?.contains(target)
+      ) {
+        return;
+      }
+      setOpen(false);
     }
     document.addEventListener("mousedown", onPointer);
     return () => document.removeEventListener("mousedown", onPointer);
@@ -88,8 +97,13 @@ export function ShareInvite({ documentId }: { documentId: string }) {
         Invite
       </button>
 
-      {open && (
-        <div className="absolute right-0 z-[60] mt-2 w-80 rounded-2xl border border-slate-200 bg-white p-4 shadow-xl dark:border-slate-700 dark:bg-slate-900">
+      <AnchoredPopover
+        open={open}
+        anchorRef={rootRef}
+        panelRef={panelRef}
+        width={320}
+        className="rounded-2xl border border-slate-200 bg-white p-4 shadow-xl dark:border-slate-700 dark:bg-slate-900"
+      >
           <p className="text-sm font-semibold text-slate-900 dark:text-white">
             Invite to collaborate
           </p>
@@ -145,8 +159,7 @@ export function ShareInvite({ documentId }: { documentId: string }) {
               {message}
             </p>
           )}
-        </div>
-      )}
+      </AnchoredPopover>
     </div>
   );
 }

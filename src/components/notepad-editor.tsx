@@ -92,7 +92,7 @@ export function NotepadEditor({ id, initialTitle, initialContent }: Props) {
   }, [id, title, content]);
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+    <div className="relative z-0 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
       <div className="flex items-center justify-between gap-4 border-b border-slate-100 px-4 py-3 sm:px-5 dark:border-slate-800">
         <input
           value={title}
