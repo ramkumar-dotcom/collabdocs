@@ -38,6 +38,11 @@ const NotificationSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    role: {
+      type: String,
+      enum: ["editor", "viewer"],
+      default: "editor",
+    },
   },
   { timestamps: true }
 );

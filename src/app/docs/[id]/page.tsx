@@ -6,6 +6,7 @@ import { ShareInvite } from "@/components/share-invite";
 import connectDB from "@/lib/db";
 import DocumentModel from "@/models/Document";
 import { userDocFilter } from "@/lib/documents";
+import { canEditRole, getAccessRole } from "@/lib/access";
 import { getSession } from "@/lib/session";
 
 type PageProps = {
@@ -30,7 +31,9 @@ export default async function DocPage({ params }: PageProps) {
     notFound();
   }
 
-  const isOwner = doc.ownerId.toString() === user.id;
+  const role = getAccessRole(doc, user.id);
+  const isOwner = role === "owner";
+  const canEdit = canEditRole(role);
 
   return (
     <div className="flex min-h-full flex-1 flex-col bg-slate-50 dark:bg-slate-950">
@@ -50,13 +53,14 @@ export default async function DocPage({ params }: PageProps) {
         }
       />
 
-      <main className="mx-auto w-full max-w-5xl flex-1 px-5 py-8 sm:px-6">
+      <main className="mx-auto w-full max-w-6xl flex-1 px-5 py-8 sm:px-6">
         <NotepadEditor
           id={doc._id.toString()}
           initialTitle={doc.title}
           initialContent={doc.content ?? ""}
           userId={user.id}
           userName={user.name}
+          canEdit={canEdit}
         />
       </main>
     </div>

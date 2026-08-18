@@ -2,8 +2,10 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import connectDB from "@/lib/db";
 import DocumentModel from "@/models/Document";
+import Version from "@/models/Version";
 import { getSession } from "@/lib/session";
 import { serializeDoc, userDocFilter } from "@/lib/documents";
+import { canEditRole, getAccessRole } from "@/lib/access";
 
 export const dynamic = "force-dynamic";
 
@@ -54,8 +56,51 @@ export async function PATCH(request: Request, context: RouteContext) {
 
   await connectDB();
 
-  const doc = await DocumentModel.findOneAndUpdate(
-    { _id: id, ...userDocFilter(user.id) },
+  const existing = await DocumentModel.findOne({
+    _id: id,
+    ...userDocFilter(user.id),
+  });
+  if (!existing) {
+    return NextResponse.json({ error: "Notepad not found" }, { status: 404 });
+  }
+
+  const role = getAccessRole(existing, user.id);
+  if (!canEditRole(role)) {
+    return NextResponse.json(
+      { error: "You have view-only access" },
+      { status: 403 }
+    );
+  }
+
+  if (parsed.data.content !== undefined) {
+    const last = await Version.findOne({ documentId: existing._id }).sort({
+      createdAt: -1,
+    });
+    const changed = last?.content !== parsed.data.content;
+    const aged =
+      !last || Date.now() - last.createdAt.getTime() > 30_000;
+    if (changed && aged) {
+      await Version.create({
+        documentId: existing._id,
+        title: parsed.data.title ?? existing.title,
+        content: parsed.data.content,
+        authorId: user.id,
+        authorName: user.name,
+      });
+      const extras = await Version.find({ documentId: existing._id })
+        .sort({ createdAt: -1 })
+        .skip(40)
+        .select("_id");
+      if (extras.length) {
+        await Version.deleteMany({
+          _id: { $in: extras.map((v) => v._id) },
+        });
+      }
+    }
+  }
+
+  const doc = await DocumentModel.findByIdAndUpdate(
+    existing._id,
     { $set: parsed.data },
     { new: true }
   );

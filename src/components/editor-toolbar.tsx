@@ -96,9 +96,11 @@ function AlignIcon({
 export function EditorToolbar({
   editor,
   leading,
+  trailing,
 }: {
   editor: Editor;
   leading?: ReactNode;
+  trailing?: ReactNode;
 }) {
   const fontFamily =
     (editor.getAttributes("textStyle").fontFamily as string | undefined) ?? "";
@@ -336,6 +338,7 @@ export function EditorToolbar({
       >
         ―
       </ToolButton>
+      {trailing}
     </div>
   );
 }

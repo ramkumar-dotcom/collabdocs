@@ -15,6 +15,7 @@ type NotificationItem = {
   read: boolean;
   createdAt: string;
   actorName: string;
+  role?: string;
 };
 
 export function NotificationBell() {
@@ -164,7 +165,7 @@ export function NotificationBell() {
               >
                 <p className="text-sm text-slate-800 dark:text-slate-100">
                   <span className="font-semibold">{n.actorName}</span> invited
-                  you to collaborate on{" "}
+                  you to {n.role === "viewer" ? "view" : "edit"}{" "}
                   <span className="font-semibold">{n.documentTitle}</span>
                 </p>
                 <p className="mt-1 text-xs text-slate-400">

@@ -10,6 +10,7 @@ export const dynamic = "force-dynamic";
 
 const schema = z.object({
   email: z.string().trim().toLowerCase().email("Enter a valid email"),
+  role: z.enum(["editor", "viewer"]).default("editor"),
 });
 
 type RouteContext = { params: Promise<{ id: string }> };
@@ -94,10 +95,15 @@ export async function POST(request: Request, context: RouteContext) {
     type: "collab_invite",
     status: "pending",
     read: false,
+    role: parsed.data.role,
   });
 
   return NextResponse.json({
     ok: true,
-    invited: { name: invitee.name, email: invitee.email },
+    invited: {
+      name: invitee.name,
+      email: invitee.email,
+      role: parsed.data.role,
+    },
   });
 }

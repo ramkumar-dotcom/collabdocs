@@ -250,6 +250,16 @@ button:disabled,
   word-break: normal;
 }
 
+.comment-mark {
+  background: rgba(251, 191, 36, 0.35);
+  border-bottom: 2px solid #f59e0b;
+  cursor: pointer;
+}
+
+.dark .comment-mark {
+  background: rgba(245, 158, 11, 0.25);
+}
+
 .collaboration-carets__label {
   position: absolute;
   top: -1.4em;

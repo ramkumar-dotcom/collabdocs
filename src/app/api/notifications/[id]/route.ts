@@ -71,7 +71,8 @@ export async function PATCH(request: Request, context: RouteContext) {
     (c) => c.userId.toString() === session.id
   );
   if (!already && doc.ownerId.toString() !== session.id) {
-    doc.collaborators.push({ userId: session.id, role: "editor" });
+    const role = note.role === "viewer" ? "viewer" : "editor";
+    doc.collaborators.push({ userId: session.id, role });
     await doc.save();
   }
 
