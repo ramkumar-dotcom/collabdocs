@@ -55,6 +55,8 @@ export default async function DocPage({ params }: PageProps) {
           id={doc._id.toString()}
           initialTitle={doc.title}
           initialContent={doc.content ?? ""}
+          userId={user.id}
+          userName={user.name}
         />
       </main>
     </div>

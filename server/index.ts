@@ -9,7 +9,10 @@ import { YSocketIO } from "y-socket.io/dist/server";
 
 // Cloud hosts inject PORT; local uses SOCKET_PORT or 4000
 const PORT = Number(process.env.PORT || process.env.SOCKET_PORT || 4000);
-const CORS_ORIGIN = process.env.CORS_ORIGIN || "http://localhost:3000";
+const CORS_ORIGIN = (process.env.CORS_ORIGIN || "http://localhost:3000")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
 
 const httpServer = createServer((_req, res) => {
   res.writeHead(200, { "Content-Type": "application/json" });
@@ -51,5 +54,5 @@ io.on("connection", (socket) => {
 // 0.0.0.0 required on most cloud platforms
 httpServer.listen(PORT, "0.0.0.0", () => {
   console.log(`[collabdocs] collaboration server listening on 0.0.0.0:${PORT}`);
-  console.log(`[collabdocs] CORS origin: ${CORS_ORIGIN}`);
+  console.log(`[collabdocs] CORS origin: ${CORS_ORIGIN.join(", ")}`);
 });
