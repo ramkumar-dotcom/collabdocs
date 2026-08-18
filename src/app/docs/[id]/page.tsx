@@ -38,15 +38,15 @@ export default async function DocPage({ params }: PageProps) {
         user={user}
         wide={false}
         left={
-          <div className="flex items-center gap-3">
-            <Link
-              href="/dashboard"
-              className="text-sm font-medium text-slate-500 hover:text-blue-700 dark:text-slate-400 dark:hover:text-blue-300"
-            >
-              ← All notepads
-            </Link>
-            {isOwner && <ShareInvite documentId={doc._id.toString()} />}
-          </div>
+          <Link
+            href="/dashboard"
+            className="text-sm font-medium text-slate-500 hover:text-blue-700 dark:text-slate-400 dark:hover:text-blue-300"
+          >
+            ← All notepads
+          </Link>
+        }
+        actions={
+          isOwner ? <ShareInvite documentId={doc._id.toString()} /> : null
         }
       />
 

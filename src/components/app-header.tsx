@@ -9,11 +9,12 @@ type AppHeaderProps = {
   user: SessionUser;
   wide?: boolean;
   left?: React.ReactNode;
+  actions?: React.ReactNode;
 };
 
-export function AppHeader({ user, wide = true, left }: AppHeaderProps) {
+export function AppHeader({ user, wide = true, left, actions }: AppHeaderProps) {
   return (
-    <header className="border-b border-blue-100/80 bg-white/90 backdrop-blur dark:border-slate-800 dark:bg-slate-950/90">
+    <header className="sticky top-0 z-50 border-b border-blue-100/80 bg-white/90 backdrop-blur dark:border-slate-800 dark:bg-slate-950/90">
       <div
         className={`mx-auto flex h-16 items-center justify-between px-5 sm:px-6 ${
           wide ? "max-w-6xl" : "max-w-5xl"
@@ -26,6 +27,7 @@ export function AppHeader({ user, wide = true, left }: AppHeaderProps) {
           {left}
         </div>
         <div className="flex items-center gap-2">
+          {actions}
           <NotificationBell />
           <ThemeToggle />
           <AvatarMenu name={user.name} email={user.email} />

@@ -89,7 +89,7 @@ export function ShareInvite({ documentId }: { documentId: string }) {
       </button>
 
       {open && (
-        <div className="absolute right-0 z-40 mt-2 w-80 rounded-2xl border border-slate-200 bg-white p-4 shadow-xl dark:border-slate-700 dark:bg-slate-900">
+        <div className="absolute right-0 z-[60] mt-2 w-80 rounded-2xl border border-slate-200 bg-white p-4 shadow-xl dark:border-slate-700 dark:bg-slate-900">
           <p className="text-sm font-semibold text-slate-900 dark:text-white">
             Invite to collaborate
           </p>
