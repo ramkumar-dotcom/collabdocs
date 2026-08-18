@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Logo } from "@/components/logo";
 import { AvatarMenu } from "@/components/avatar-menu";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { NotificationBell } from "@/components/notification-bell";
 import type { SessionUser } from "@/types";
 
 type AppHeaderProps = {
@@ -25,6 +26,7 @@ export function AppHeader({ user, wide = true, left }: AppHeaderProps) {
           {left}
         </div>
         <div className="flex items-center gap-2">
+          <NotificationBell />
           <ThemeToggle />
           <AvatarMenu name={user.name} email={user.email} />
         </div>

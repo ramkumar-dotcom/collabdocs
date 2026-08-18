@@ -64,6 +64,7 @@ export default async function DashboardPage() {
                   </h3>
                   <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
                     Opened {formatRelativeTime(doc.updatedAt)}
+                    {doc.ownerId !== user.id ? " · Shared with you" : ""}
                   </p>
                 </Link>
               ))}
