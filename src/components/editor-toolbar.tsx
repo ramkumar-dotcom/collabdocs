@@ -93,7 +93,13 @@ function AlignIcon({
   );
 }
 
-export function EditorToolbar({ editor }: { editor: Editor }) {
+export function EditorToolbar({
+  editor,
+  leading,
+}: {
+  editor: Editor;
+  leading?: ReactNode;
+}) {
   const fontFamily =
     (editor.getAttributes("textStyle").fontFamily as string | undefined) ?? "";
   const fontSize =
@@ -116,7 +122,9 @@ export function EditorToolbar({ editor }: { editor: Editor }) {
   }
 
   return (
-    <div className="relative z-0 flex flex-wrap items-center gap-0.5 border-b border-slate-200 bg-slate-50 px-2 py-1.5 dark:border-slate-800 dark:bg-slate-900">
+    <div className="relative z-10 flex flex-wrap items-center gap-0.5 border-b border-slate-200 bg-slate-50 px-2 py-1.5 dark:border-slate-800 dark:bg-slate-900">
+      {leading}
+      {leading ? <span className="mx-1 h-6 w-px shrink-0 bg-slate-200 dark:bg-slate-700" /> : null}
       <ToolButton
         title="Undo"
         disabled={!editor.can().undo()}

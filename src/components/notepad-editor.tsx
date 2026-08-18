@@ -21,6 +21,7 @@ import {
   yFragmentIsEmpty,
 } from "@/lib/collab";
 import { EditorToolbar } from "@/components/editor-toolbar";
+import { FileMenu } from "@/components/file-menu";
 import { Spinner } from "@/components/ui";
 
 type LiveUser = { name: string; color: string };
@@ -208,7 +209,7 @@ export function NotepadEditor({
   }, [title, editor, id]);
 
   return (
-    <div className="relative z-0 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+    <div className="relative z-0 rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
       <div className="flex items-center justify-between gap-4 border-b border-slate-100 px-4 py-3 sm:px-5 dark:border-slate-800">
         <input
           value={title}
@@ -255,7 +256,28 @@ export function NotepadEditor({
 
       {editor ? (
         <>
-          <EditorToolbar editor={editor} />
+          <EditorToolbar
+            editor={editor}
+            leading={
+              <FileMenu
+                title={title.trim() || "Untitled notepad"}
+                editor={editor}
+                onSave={async () => {
+                  setStatus("saving");
+                  const res = await fetch(`/api/documents/${id}`, {
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                      title: title.trim() || "Untitled notepad",
+                      content: editor.getHTML(),
+                    }),
+                  });
+                  setStatus(res.ok ? "live" : "error");
+                  if (!res.ok) throw new Error("save failed");
+                }}
+              />
+            }
+          />
           <EditorContent editor={editor} />
         </>
       ) : (
