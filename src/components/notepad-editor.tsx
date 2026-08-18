@@ -18,7 +18,7 @@ import { toEditorHtml } from "@/lib/html";
 import {
   colorForUser,
   createCollabSession,
-  yFragmentIsEmpty,
+  seedIfEmpty,
 } from "@/lib/collab";
 import { EditorToolbar } from "@/components/editor-toolbar";
 import { FileMenu } from "@/components/file-menu";
@@ -52,7 +52,6 @@ export function NotepadEditor({
   const [connected, setConnected] = useState(false);
   const [peers, setPeers] = useState<LiveUser[]>([]);
   const [side, setSide] = useState<"none" | "comments" | "history">("none");
-  const seeded = useRef(false);
   const [, bump] = useState(0);
 
   const userColor = useMemo(() => colorForUser(userId), [userId]);
@@ -105,29 +104,44 @@ export function NotepadEditor({
 
   useEffect(() => {
     const { provider, ydoc } = session;
-    seeded.current = false;
+    let cancelled = false;
+    let seedTimer: number | null = null;
 
     const onStatus = (event: { status: string }) => {
       setConnected(event.status === "connected");
     };
 
     const trySeed = () => {
-      if (seeded.current || !editor) return;
-      if (!yFragmentIsEmpty(ydoc)) {
-        seeded.current = true;
-        return;
-      }
+      if (cancelled || !editor) return;
       const html = toEditorHtml(initialContent);
-      if (!html) {
-        seeded.current = true;
+      const currentText = editor.getText().replace(/\s+/g, " ").trim();
+      const incomingText = html
+        .replace(/<[^>]+>/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+      if (currentText && incomingText && currentText.includes(incomingText)) {
+        session.seeded = true;
         return;
       }
-      editor.commands.setContent(html);
-      seeded.current = true;
+      const peerIds = [...provider.awareness.getStates().keys()];
+      if (
+        peerIds.length > 1 &&
+        ydoc.clientID !== Math.min(...peerIds)
+      ) {
+        return;
+      }
+      if (!seedIfEmpty(session, html)) return;
+      if (html) editor.commands.setContent(html);
+    };
+
+    const scheduleSeed = () => {
+      if (seedTimer) window.clearTimeout(seedTimer);
+      // Wait for remote Yjs state before inserting saved HTML
+      seedTimer = window.setTimeout(trySeed, 400);
     };
 
     const onSync = (synced: boolean) => {
-      if (synced) trySeed();
+      if (synced) scheduleSeed();
     };
 
     const onAwareness = () => {
@@ -143,10 +157,12 @@ export function NotepadEditor({
     provider.on("status", onStatus);
     provider.on("sync", onSync);
     provider.awareness.on("update", onAwareness);
-    if (provider.synced) trySeed();
+    if (provider.synced) scheduleSeed();
     onAwareness();
 
     return () => {
+      cancelled = true;
+      if (seedTimer) window.clearTimeout(seedTimer);
       provider.off("status", onStatus);
       provider.off("sync", onSync);
       provider.awareness.off("update", onAwareness);
